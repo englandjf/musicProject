@@ -172,12 +172,38 @@ public class soundScript : MonoBehaviour {
 	{
 		if (gv.snapping.isOn) {
 			//X based on scale(testing), will later be entered(override), default snap will be on be based on length
+			/*
 			for (float i = -10; i < 10; i+=gv.currentSnap) {
 				if (transform.position.x >= i && transform.position.x <= i + gv.currentSnap) {
+					Debug.Log(i);
 					Vector3 a = new Vector3 (i + (clipSize / 2), Mathf.Round (transform.position.y), 0);
 					transform.position = a;
 				}
 			}
+			*/
+			bool isNeg;
+			//if(transform.position.x < 0)
+			//	isNeg = true;
+			//else
+			//	isNeg = false;
+			float distance = Mathf.Abs(transform.position.x + 10);
+			int amountInside = Mathf.FloorToInt(distance/gv.currentSnap);
+			float amountExtra = distance%gv.currentSnap;
+			Vector3 a;
+			Debug.Log(distance + " " + amountInside + " " + amountExtra);
+			if(amountExtra < (gv.currentSnap/2)){
+				a = new Vector3 (-10+(amountInside * gv.currentSnap) + (clipSize / 2), Mathf.Round (transform.position.y), 0);
+				//if(isNeg){
+				//	a.x *= -1;
+				//}
+			}
+			else{
+				a = new Vector3 (-10+((amountInside+gv.currentSnap) * gv.currentSnap) + (clipSize / 2), Mathf.Round (transform.position.y), 0);
+				//if(isNeg){
+				//	a.x *= -1;
+				//}
+			}
+			transform.position = a;
 		} else {
 			//Just Y
 			transform.position = new Vector3 (transform.position.x, Mathf.Round (transform.position.y), this.transform.position.z);

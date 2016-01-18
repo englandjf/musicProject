@@ -206,14 +206,15 @@ public class globalVars : MonoBehaviour {
 		temp.soundReference = null;
 		temp.groupName = "";
 		temp.enabled = false;
-		;
+
 
 	}
 
 	public void snapChanged()
 	{
-		currentSnap = snapSelector.value;
-		snapText.text = currentSnap;
+		currentSnap = 1 / snapSelector.value;
+		Debug.Log ("Sna " + currentSnap);
+		snapText.text = "Snaps/Second:" + snapSelector.value.ToString();
 	}
 
 	
