@@ -24,6 +24,9 @@ public class soundScript : MonoBehaviour {
 	//Line for placemenet
 	public LineRenderer guideLine;
 
+	//Parent for placement
+	//public GameObject parent;
+
 	// Use this for initialization
 	void Start () {
 		gv = GameObject.Find ("main").GetComponent<globalVars> ();
@@ -42,6 +45,11 @@ public class soundScript : MonoBehaviour {
 		clipSize = mainSource.clip.length;
 		this.transform.localScale = new Vector3 (clipSize, 1, 1);
 		//bc.size = new Vector2 (clipSize, 1);
+
+		//set parent to life side
+		//parent = gameObject.transform.parent.gameObject;
+		//parent.transform.position = this.transform.position;
+		//parent.transform.position = new Vector3 (this.transform.position.x-(clipSize/2), this.transform.position.y, this.transform.position.z);
 
 		//Add self to master list
 		List<AudioSource> a =  (List<AudioSource>)gv.allGroups["Master"];
@@ -86,7 +94,8 @@ public class soundScript : MonoBehaviour {
 			else
 				gv.selectedObject = gv.overObject;
 		} else if (Input.GetMouseButton (0) && gv.selectedObject == this.gameObject && !invalid) { //&& !initPlaced){
-			transform.position = mp;
+			
+			this.transform.position = new Vector3 (mp.x + (transform.localScale.x / 2), mp.y, mp.z);
 			//gv.selectedObject = this.gameObject;
 			//gv.selectedObject.transform.position = mp;
 		} else if (Input.GetMouseButtonUp (0) && gv.selectedObject == this.gameObject) {
@@ -181,7 +190,7 @@ public class soundScript : MonoBehaviour {
 				}
 			}
 			*/
-			bool isNeg;
+			//bool isNeg;
 			//if(transform.position.x < 0)
 			//	isNeg = true;
 			//else
@@ -198,7 +207,7 @@ public class soundScript : MonoBehaviour {
 				//}
 			}
 			else{
-				a = new Vector3 (-10+((amountInside+gv.currentSnap) * gv.currentSnap) + (clipSize / 2), Mathf.Round (transform.position.y), 0);
+				a = new Vector3 (-10+((amountInside+1) * gv.currentSnap) + (clipSize / 2), Mathf.Round (transform.position.y), 0);
 				//if(isNeg){
 				//	a.x *= -1;
 				//}

@@ -81,7 +81,16 @@ public class globalVars : MonoBehaviour {
 			currentCanvas = mainCanvas;
 		}
 
+		//scroll, mostly just in editor
+		if(current == mainCam){
+			if (Input.mousePosition.x > Screen.width - 20) {
+				mainCam.transform.position = new Vector3 (mainCam.transform.position.x + .05f, mainCam.transform.position.y, mainCam.transform.position.z);
+			} else if (Input.mousePosition.x < 20) {
+				mainCam.transform.position = new Vector3 (mainCam.transform.position.x - .05f, mainCam.transform.position.y, mainCam.transform.position.z);
+			}
+				
 
+		}
 
 		//Hide/Show Edit Button
 		//if (selectedObject)
