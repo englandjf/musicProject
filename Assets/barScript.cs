@@ -33,6 +33,7 @@ public class barScript : MonoBehaviour {
 			else {
 				startTime = Time.time;
 				transform.position = leftSide;
+				stopped = true;
 				Debug.Log ("End Time " + Time.time);
 			}
 		}

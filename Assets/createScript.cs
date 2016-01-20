@@ -21,6 +21,8 @@ public class createScript : MonoBehaviour {
 
 		//Metronome
 		metroMarks = new List<GameObject> ();
+		columnStorage = new List<GameObject> ();
+		rowStorage = new List<GameObject> ();
 		makeMetronome (60);
 		//Seconds
 		makeSecondMarkers ();
@@ -71,7 +73,7 @@ public class createScript : MonoBehaviour {
 		float distanceBet = 1 / bps;
 
 		int listIndex = 0;
-		for (float i = -10; i <= 10; i+=distanceBet) {
+		for (float i = -10; i <= rightSidex; i+=distanceBet) {
 			//Grab from list
 			GameObject temp = null;
 			if(listIndex != metroMarks.Count){
@@ -110,14 +112,18 @@ public class createScript : MonoBehaviour {
 
 
 	public GameObject secondsLine;
+	List <GameObject> columnStorage;
+	List <GameObject> rowStorage;
 	//Second markers
 	void makeSecondMarkers()
 	{
+		int columnIndex = 0;
 		//Columns
 		for (int x =-10; x <= 10; x++) {
 			GameObject temp = (GameObject)Instantiate(secondsLine,new Vector3(x,-4,0),this.transform.rotation);
 			temp.GetComponent<LineRenderer>().SetPosition(0,new Vector3(x,-3.5f,0));
 			temp.GetComponent<LineRenderer>().SetPosition(1,new Vector3(x,3.5f,0));
+			columnStorage.Add (temp);
 
 		}
 
@@ -126,7 +132,38 @@ public class createScript : MonoBehaviour {
 		{
 			GameObject temp = (GameObject)Instantiate(secondsLine,new Vector3(-10,0,0),this.transform.rotation);
 			temp.GetComponent<LineRenderer>().SetPosition(0,new Vector3(-10,y+.5f,0));
-			temp.GetComponent<LineRenderer>().SetPosition(1,new Vector3(10,y+.5f,0));
+			temp.GetComponent<LineRenderer>().SetPosition(1,new Vector3(rightSidex,y+.5f,0));
+			rowStorage.Add (temp);
+		}
+	}
+
+	public float rightSidex = 10;
+	public void changedLength(bool more)
+	{
+		if (more) {
+			rightSidex++;
+			GameObject temp = (GameObject)Instantiate(secondsLine,new Vector3(rightSidex,-4,0),this.transform.rotation);
+			temp.GetComponent<LineRenderer>().SetPosition(0,new Vector3(rightSidex,-3.5f,0));
+			temp.GetComponent<LineRenderer>().SetPosition(1,new Vector3(rightSidex,3.5f,0));
+			columnStorage.Add (temp);
+		}
+		else {
+			rightSidex--;
+			GameObject temp = columnStorage [columnStorage.Count - 1];
+			Destroy (temp);
+			columnStorage.Remove (temp);
+		}
+
+		//Redraw or add to metro and second markers
+		makeMetronome (beatSlider.value);
+		//Column update
+
+
+		//Row update
+		int yValue = -4;
+		foreach(GameObject a in rowStorage){
+			a.GetComponent<LineRenderer>().SetPosition(1,new Vector3(rightSidex,yValue+.5f,0));
+			yValue++;
 		}
 	}
 	
