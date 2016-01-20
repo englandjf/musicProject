@@ -4,7 +4,9 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 
 public class soundEditScript : MonoBehaviour {
-	
+
+	//Add some sort of indicator on track if an effect has been added, or what group they are part of.
+
 	//global vars
 	public globalVars gv;
 
@@ -131,26 +133,34 @@ public class soundEditScript : MonoBehaviour {
 		//Filters
 		//Echo
 		echoFilter = soundReference.GetComponent<AudioEchoFilter> ();
-		if (echoFilter) 
+		if (echoFilter) {
 			echoToggle.isOn = true;
+			echoOptions.GetComponent<echoScript> ().filterReference = echoFilter;
+		}
 		 else 
 			echoToggle.isOn = false;
 		//Chorus
 		chorusFilter = soundReference.GetComponent<AudioChorusFilter> ();
-		if (chorusFilter)
+		if (chorusFilter) {
 			chorusToggle.isOn = true;
+			chorusOptions.GetComponent<chorusScript> ().filterReference = chorusFilter;
+		}
 		else
 			chorusToggle.isOn = false;
 		//Reverb
 		reverbFilter = soundReference.GetComponent<AudioReverbFilter> ();
-		if (reverbFilter)
+		if (reverbFilter) {
 			reverbToggle.isOn = true;
+			reverbOptions.GetComponent<reverbScript> ().filterReference = reverbFilter;
+		}
 		else
 			reverbToggle.isOn = false;
 		//Distortion
 		distortionFilter = soundReference.GetComponent<AudioDistortionFilter> ();
-		if (distortionFilter)
+		if (distortionFilter) {
 			distortionToggle.isOn = true;
+			distortionOptions.GetComponent<distortionScript> ().filterReference = distortionFilter;
+		}
 		else
 			distortionToggle.isOn = false;
 

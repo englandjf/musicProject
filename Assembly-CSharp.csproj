@@ -45,14 +45,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\barScript.cs" />
-     <Compile Include="Assets\createScript.cs" />
-     <Compile Include="Assets\globalVars.cs" />
-     <Compile Include="Assets\metroScript.cs" />
-     <Compile Include="Assets\mixerScript.cs" />
+     <Compile Include="Assets\Scripts\Option Settings\chorusScript.cs" />
+     <Compile Include="Assets\Scripts\Option Settings\distortionScript.cs" />
+     <Compile Include="Assets\Scripts\Option Settings\echoScript.cs" />
+     <Compile Include="Assets\Scripts\Option Settings\reverbScript.cs" />
+     <Compile Include="Assets\Scripts\barScript.cs" />
+     <Compile Include="Assets\Scripts\createScript.cs" />
+     <Compile Include="Assets\Scripts\globalVars.cs" />
+     <Compile Include="Assets\Scripts\metroScript.cs" />
+     <Compile Include="Assets\Scripts\mixerScript.cs" />
+     <Compile Include="Assets\Scripts\soundScript.cs" />
      <Compile Include="Assets\soundBank.cs" />
      <Compile Include="Assets\soundEditScript.cs" />
-     <Compile Include="Assets\soundScript.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
