@@ -27,6 +27,9 @@ public class soundScript : MonoBehaviour {
 	//Parent for placement
 	//public GameObject parent;
 
+	//for placing object
+	bool clearToplace = true;
+
 	// Use this for initialization
 	void Start () {
 		gv = GameObject.Find ("main").GetComponent<globalVars> ();
@@ -76,13 +79,17 @@ public class soundScript : MonoBehaviour {
 	//If the mouse pointer enters the menu area
 	bool invalid = false;
 
+	//trying to avoid moving object when selected
+	float clickTime;
+	float delay = .1f;
+
 	// Update is called once per frame
 	void Update () {
 		//Initial placement
 		Vector3 mp = gv.current.ScreenToWorldPoint(Input.mousePosition);
 		mp.z = 0;
 
-		if (mp.y >= 4 || mp.y <= -4)
+		if (mp.y >= 3 || mp.y <= -3)
 			invalid = true;
 		else
 			invalid = false;
@@ -91,16 +98,22 @@ public class soundScript : MonoBehaviour {
 		if (Input.GetMouseButtonDown (0) && !invalid) {	
 			if (gv.overObject == null)
 				gv.selectedObject = null;
-			else
+			else {
 				gv.selectedObject = gv.overObject;
-		} else if (Input.GetMouseButton (0) && gv.selectedObject == this.gameObject && !invalid) { //&& !initPlaced){
+				clickTime = Time.time;
+			}
+		} else if (Input.GetMouseButton (0) && gv.selectedObject == this.gameObject && !invalid && Time.time >= (clickTime+delay)) { //&& !initPlaced){
 			
 			this.transform.position = new Vector3 (mp.x + (transform.localScale.x / 2), mp.y, mp.z);
 			//gv.selectedObject = this.gameObject;
 			//gv.selectedObject.transform.position = mp;
 		} else if (Input.GetMouseButtonUp (0) && gv.selectedObject == this.gameObject) {
-			if(!invalid)
-				handleSnap ();
+			if (!invalid) {
+				if (clearToplace)
+					handleSnap ();
+				else
+					Destroy (this.gameObject);
+			}
 		} 
 
 
@@ -131,12 +144,14 @@ public class soundScript : MonoBehaviour {
 		//} else if (Time.time >= gameSoundEnd)
 		//	playTrack = false;
 
-		//Delays start
+		//Delays start(if start time has been change)
 		if (mainSource.isPlaying) {
-			if(Time.time <= gameSoundStart || Time.time >= gameSoundEnd)
+			if (Time.time <= gameSoundStart || Time.time >= gameSoundEnd)
 				mainSource.mute = true;
-			else
+			else {
 				mainSource.mute = false;
+				this.gameObject.GetComponent<Renderer> ().material.color = Color.yellow;//change color when playing
+			}
 		}
 
 		//Draw guide line
@@ -160,20 +175,27 @@ public class soundScript : MonoBehaviour {
 	public float gameSoundEnd;
 	void OnTriggerEnter2D(Collider2D a)
 	{
-		//playTrack = true;
-		mainSource.Play ();
-		//hitTime = Time.time;
-		gameSoundStart = Time.time+startTime;
-		gameSoundEnd = Time.time + endTime;
-		//Debug.Log (Time.time + " " + gameSoundStart);
-		//mainSource.Play ();
-		//Debug.Log ("Tes");
+		if (a.gameObject.name == "bar") {
+			//playTrack = true;
+			mainSource.Play ();
+			//hitTime = Time.time;
+			gameSoundStart = Time.time + startTime;
+			gameSoundEnd = Time.time + endTime;
+			//Debug.Log (Time.time + " " + gameSoundStart);
+			//mainSource.Play ();
+			//Debug.Log ("Tes");
+		} else {
+			clearToplace = false;
+		}
 	}
 
 
 	void OnTriggerExit2D(Collider2D a)
 	{
-		mainSource.Stop ();
+		if(a.gameObject.name == "bar")
+			mainSource.Stop ();
+		else
+			clearToplace = true;
 	}
 
 	float currentSnap;
