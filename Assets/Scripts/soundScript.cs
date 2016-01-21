@@ -89,13 +89,13 @@ public class soundScript : MonoBehaviour {
 		Vector3 mp = gv.current.ScreenToWorldPoint(Input.mousePosition);
 		mp.z = 0;
 
-		if (mp.y >= 3 || mp.y <= -3)
+		if (mp.y >= 3.5 || mp.y <= -3.5)
 			invalid = true;
 		else
 			invalid = false;
 
 		//clear selection if selecting blank space or select object
-		if (Input.GetMouseButtonDown (0) && !invalid) {	
+		if (Input.GetMouseButtonDown (0)){// && !invalid) {	
 			if (gv.overObject == null)
 				gv.selectedObject = null;
 			else {
@@ -113,7 +113,8 @@ public class soundScript : MonoBehaviour {
 					handleSnap ();
 				else
 					Destroy (this.gameObject);
-			}
+			} else
+				Destroy (this.gameObject);
 		} 
 
 
@@ -131,11 +132,7 @@ public class soundScript : MonoBehaviour {
 
 		//Delete
 		if (Input.GetMouseButtonDown (1) && gv.overObject == this.gameObject) {
-			//Delete from list
-			List<AudioSource> a =  (List<AudioSource>)gv.allGroups["Master"];
-			a.Remove(mainSource);
-			Destroy (this.gameObject);
-			gv.selectedObject = null;
+			deleteSound ();
 		}
 
 		//Handle play
@@ -290,6 +287,16 @@ public class soundScript : MonoBehaviour {
 		}
 
 
+	}
+
+	public void deleteSound()
+	{
+		//Delete from list
+		List<AudioSource> a =  (List<AudioSource>)gv.allGroups["Master"];
+		a.Remove(mainSource);
+		Destroy (this.gameObject);
+		gv.selectedObject = null;
+		//what about for a group?
 	}
 
 

@@ -58,16 +58,16 @@ public class globalVars : MonoBehaviour {
 		allGroups.Add ("GroupA", allGroupA);
 
 		//Debug.Log (HttpGet ( "https://www.freesound.org/apiv2/sounds/333489/download/"));
-		StartCoroutine(HttpGet());
+		//StartCoroutine(HttpGet());
 	}
 
 	string URL = "https://www.freesound.org/apiv2/sounds/333489/download/";
 	//test
-	IEnumerator HttpGet()
-	{
+	//IEnumerator HttpGet()
+	//{
 
 
-	}
+	//}
 	
 	// Update is called once per frame
 	void Update () {
@@ -280,6 +280,11 @@ public class globalVars : MonoBehaviour {
 		currentCanvas.enabled = true;
 	}
 
+	public void deleteHelper()
+	{
+		if(selectedObject)
+			selectedObject.GetComponent<soundScript> ().deleteSound ();
+	}
 	
 
 

@@ -35,7 +35,7 @@ public class createScript : MonoBehaviour {
 		if (Input.GetMouseButtonDown (0) && !gv.overObject && gv.current.name == "main" && gv.soundOptions.value != 0) {
 			Vector3 mp = GetComponent<Camera>().ScreenToWorldPoint(Input.mousePosition);
 			mp.z = 0;
-			if(mp.y < 4 && mp.y > -4){
+			if(mp.y < 3.5 && mp.y > -3.5){
 				GameObject temp = (GameObject)Instantiate(soundObject,mp,this.transform.rotation);
 				temp.name += gv.soundNumber;
 				gv.soundNumber++;
