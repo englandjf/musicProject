@@ -74,34 +74,6 @@ public class globalVars : MonoBehaviour {
 	//test
 	IEnumerator HttpGet()
 	{
-		//THIS WORKS
-		Dictionary<string,string> headers = new Dictionary<string, string> (); 
-		headers.Add("Authorization",  "Bearer 413d294614cf0e1eef31f9a5e51fd681bae739f4");
-		WWW www = new WWW (URL,null,headers);
-		yield return www;
-		//AudioClip temp = www.GetAudioClip(true,true,AudioType.WAV);
-		AudioClip temp = www.GetAudioClipCompressed(false,AudioType.WAV);
-		AudioSource asTest = gameObject.AddComponent<AudioSource> ();
-		asTest.clip = temp;
-		asTest.Play ();
-		//Debug.Log (temp);
-
-
-		/*
-		HttpWebRequest req = WebRequest.Create (url) as HttpWebRequest;
-		req.Headers.Add ("Authorization: Bearer 413d294614cf0e1eef31f9a5e51fd681bae739f4");
-		string result = null;
-		using (HttpWebResponse resp = req.GetResponse () as HttpWebResponse) {
-			Stream a = resp.GetResponseStream ();
-			BinaryReader b = new BinaryReader (a);
-
-			//StreamReader reader = new StreamReader (resp.GetResponseStream ());
-			//result = reader.ReadToEnd ();
-		}
-		WWW www;
-
-		return result;
-		*/
 
 
 	}
