@@ -7,15 +7,6 @@ using System.IO;
 
 public class globalVars : MonoBehaviour {
 
-	//https://www.freesound.org/apiv2/oauth2/authorize/
-	//auth code for free sound
-	//43cd1af77fac90c89b7d8c092c801e9003454d31 ->expires every 10 minutes
-	//access token
-	//413d294614cf0e1eef31f9a5e51fd681bae739f4 -> expires every 24 hours
-	//curl -X POST -d "client_id=4656d370ed84017ab3bc&client_secret=081dc0326eb35d42dd3e44fda191713b9fcdba63&grant_type=authorization_code&code=43cd1af77fac90c89b7d8c092c801e9003454d31" https://www.freesound.org/apiv2/oauth2/access_token/
-	//for refresh, curl -X POST -d "client_id=YOUR_CLIENT_ID&client_secret=YOUR_CLIENT_SECRET&grant_type=refresh_token&refresh_token=REFRESH_TOKEN" "https://www.freesound.org/apiv2/oauth2/access_token/"
-	//for getting sounds
-	//curl -H "Authorization: Bearer 413d294614cf0e1eef31f9a5e51fd681bae739f4" 'https://www.freesound.org/apiv2/sounds/333489/download/
 
 	public GameObject overObject;
 	public GameObject selectedObject;
