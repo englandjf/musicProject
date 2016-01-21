@@ -55,6 +55,7 @@
      <Compile Include="Assets\Scripts\metroScript.cs" />
      <Compile Include="Assets\Scripts\mixerScript.cs" />
      <Compile Include="Assets\Scripts\soundScript.cs" />
+     <Compile Include="Assets\importScript.cs" />
      <Compile Include="Assets\soundBank.cs" />
      <Compile Include="Assets\soundEditScript.cs" />
  <Reference Include="UnityEngine.UI">

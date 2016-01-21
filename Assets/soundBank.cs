@@ -8,6 +8,9 @@ public class soundBank : MonoBehaviour {
 	//For now just have one bank
 	//But in the future have multiple based on categories
 
+	//Include some base sounds
+	//If others are wanted, use freesound.org api calls
+
 	//List of all sounds, will in future get from files
 	public List<AudioClip> allList;
 	//Dropdown of all sounds
