@@ -69,11 +69,13 @@ public class createScript : MonoBehaviour {
 	public GameObject metroSound;
 	//reusable rather than creating them all again
 	List<GameObject> metroMarks;
+	//distance between markers
+	public float distanceBet;
 	void makeMetronome(float bpm)
 	{
 		//Calculate distance between markers from bpm
 		float bps = bpm / 60;
-		float distanceBet = 1 / bps;
+		distanceBet = 1 / bps;
 
 		int listIndex = 0;
 		for (float i = -10; i <= rightSidex; i+=distanceBet) {

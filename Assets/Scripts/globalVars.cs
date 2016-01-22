@@ -43,11 +43,17 @@ public class globalVars : MonoBehaviour {
 	//For snap
 	public Slider snapSelector;
 	public Toggle snapping;
+	public Toggle metroSnap;
 	public Text snapText;
 	public float currentSnap = 1.0f;
 
 	//For editing sounds
 	public Button deleteSound;
+
+
+
+	//idea for y axis
+	//stereo left and right, pitch, allow selection?
 
 	// Use this for initialization
 	void Start () {

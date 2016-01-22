@@ -110,10 +110,10 @@ public class soundScript : MonoBehaviour {
 			//gv.selectedObject.transform.position = mp;
 		} else if (Input.GetMouseButtonUp (0) && gv.selectedObject == this.gameObject) {
 			if (!invalid) {
-				if (clearToplace)
+				//if (clearToplace)
 					handleSnap ();
-				else
-					Destroy (this.gameObject);
+				//else
+				//	Destroy (this.gameObject);
 			} //else
 				//Destroy (this.gameObject);
 		} 
@@ -198,10 +198,13 @@ public class soundScript : MonoBehaviour {
 			clearToplace = true;
 	}
 
-	float currentSnap;
+	//float currentSnap;
 	void handleSnap()
 	{
 		if (gv.snapping.isOn) {
+			//override if using metro snap
+			if (gv.metroSnap.isOn)
+				gv.currentSnap = gv.gameObject.GetComponentInChildren<createScript> ().distanceBet;
 			//X based on scale(testing), will later be entered(override), default snap will be on be based on length
 			/*
 			for (float i = -10; i < 10; i+=gv.currentSnap) {
@@ -239,6 +242,11 @@ public class soundScript : MonoBehaviour {
 			//Just Y
 			transform.position = new Vector3 (transform.position.x, Mathf.Round (transform.position.y), this.transform.position.z);
 		}
+
+		//delete if there is a conflict
+		if (!clearToplace)
+			Destroy (this.gameObject);
+			
 	}
 
 	void OnMouseEnter()
