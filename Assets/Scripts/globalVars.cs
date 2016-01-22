@@ -47,7 +47,7 @@ public class globalVars : MonoBehaviour {
 	public float currentSnap = 1.0f;
 
 	//For editing sounds
-	public Button editSound;
+	public Button deleteSound;
 
 	// Use this for initialization
 	void Start () {
@@ -56,6 +56,10 @@ public class globalVars : MonoBehaviour {
 		allGroupA = new List<AudioSource> ();
 		allGroups.Add ("Master", allSounds);
 		allGroups.Add ("GroupA", allGroupA);
+
+
+
+		//hideButton (deleteSound);
 
 		//Debug.Log (HttpGet ( "https://www.freesound.org/apiv2/sounds/333489/download/"));
 		//StartCoroutine(HttpGet());
@@ -68,6 +72,12 @@ public class globalVars : MonoBehaviour {
 
 
 	//}
+
+	//For double clicking
+	bool oneClick = false;
+	bool timerRunning;
+	float timerDC;
+	float delay = .25f;
 	
 	// Update is called once per frame
 	void Update () {
@@ -110,6 +120,23 @@ public class globalVars : MonoBehaviour {
 			}
 				
 
+		}
+
+
+
+		if (Input.GetMouseButtonDown (0)) {
+			if (!oneClick) {
+				oneClick = true;
+				timerDC = Time.time;
+			} else {
+				oneClick = false;
+				launchEditMenu ();
+			}
+			
+		}
+		if (oneClick) {
+			if ((Time.time - timerDC) > delay)
+				oneClick = false;
 		}
 
 		//Hide/Show Edit Button
@@ -225,9 +252,16 @@ public class globalVars : MonoBehaviour {
 		temp.groupName = group;
 		temp.enabled = true;
 	}
+		
 
 	public void backToMain()
 	{
+		
+		soundEditScript temp = current.gameObject.GetComponent<soundEditScript> ();
+		temp.soundReference = null;
+		temp.groupName = "";
+		temp.enabled = false;
+
 		cameraHelp (mainCam, mainCanvas);
 		/*
 		mainCam.enabled = true;
@@ -240,10 +274,7 @@ public class globalVars : MonoBehaviour {
 		currentCanvas = mainCanvas;
 		*/
 		//Disable script
-		soundEditScript temp = soundCam.GetComponent<soundEditScript> ();
-		temp.soundReference = null;
-		temp.groupName = "";
-		temp.enabled = false;
+
 
 
 	}
@@ -272,18 +303,32 @@ public class globalVars : MonoBehaviour {
 	//helper for changing cams
 	void cameraHelp(Camera a,Canvas b)
 	{
+		Debug.Log (current.name);
 		current.enabled = false;
 		currentCanvas.enabled = false;
 		current = a;
 		currentCanvas = b;
 		current.enabled = true;
 		currentCanvas.enabled = true;
+
 	}
 
 	public void deleteHelper()
 	{
 		if(selectedObject)
 			selectedObject.GetComponent<soundScript> ().deleteSound ();
+	}
+
+	void hideButton(Button a)
+	{
+		deleteSound.enabled = false;
+		deleteSound.GetComponent<Image> ().material.color = Color.clear;
+		deleteSound.GetComponentInChildren<Text> ().color = Color.clear;
+	}
+
+	void showButton(Button a)
+	{
+		
 	}
 	
 

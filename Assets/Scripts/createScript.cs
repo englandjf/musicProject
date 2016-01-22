@@ -36,11 +36,14 @@ public class createScript : MonoBehaviour {
 			Vector3 mp = GetComponent<Camera>().ScreenToWorldPoint(Input.mousePosition);
 			mp.z = 0;
 			if(mp.y < 3.5 && mp.y > -3.5){
-				GameObject temp = (GameObject)Instantiate(soundObject,mp,this.transform.rotation);
-				temp.name += gv.soundNumber;
-				gv.soundNumber++;
-				if(groupOptions.value != 0)
-					temp.GetComponent<soundScript>().groupName = groupOptions.options[groupOptions.value].text;
+				//if (!gv.selectedObject) {
+					GameObject temp = (GameObject)Instantiate (soundObject, mp, this.transform.rotation);
+					temp.name += gv.soundNumber;
+					gv.soundNumber++;
+					if (groupOptions.value != 0)
+						temp.GetComponent<soundScript> ().groupName = groupOptions.options [groupOptions.value].text;
+				//} else
+				//	gv.selectedObject = null;
 			}
 		}
 	}

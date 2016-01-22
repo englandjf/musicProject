@@ -95,7 +95,8 @@ public class soundScript : MonoBehaviour {
 			invalid = false;
 
 		//clear selection if selecting blank space or select object
-		if (Input.GetMouseButtonDown (0)){// && !invalid) {	
+		//might need to add selection area for edit button
+		if (Input.GetMouseButtonDown (0) && !invalid) {	
 			if (gv.overObject == null)
 				gv.selectedObject = null;
 			else {
@@ -113,8 +114,8 @@ public class soundScript : MonoBehaviour {
 					handleSnap ();
 				else
 					Destroy (this.gameObject);
-			} else
-				Destroy (this.gameObject);
+			} //else
+				//Destroy (this.gameObject);
 		} 
 
 
@@ -143,8 +144,10 @@ public class soundScript : MonoBehaviour {
 
 		//Delays start(if start time has been change)
 		if (mainSource.isPlaying) {
-			if (Time.time <= gameSoundStart || Time.time >= gameSoundEnd)
-				mainSource.mute = true;
+			if (Time.time <= gameSoundStart || Time.time >= gameSoundEnd) {
+				if(gameObject.GetComponent<AudioEchoFilter>() == null)
+					mainSource.mute = true;
+			}
 			else {
 				mainSource.mute = false;
 				this.gameObject.GetComponent<Renderer> ().material.color = Color.yellow;//change color when playing
