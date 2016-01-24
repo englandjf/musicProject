@@ -52,6 +52,8 @@ public class globalVars : MonoBehaviour {
 
 
 
+
+
 	//idea for y axis
 	//stereo left and right, pitch, allow selection?
 
@@ -64,11 +66,50 @@ public class globalVars : MonoBehaviour {
 		allGroups.Add ("GroupA", allGroupA);
 
 
+		checkTokenInfo ();
+		//validReady = checkTokenInfo ();
+		//if(!validReady)
+		//	GameObject.Find ("importCam").GetComponent<importScript> ().refreshToken ();
+
+		//Debug.Log (System.DateTime.Now.);
 
 		//hideButton (deleteSound);
 
 		//Debug.Log (HttpGet ( "https://www.freesound.org/apiv2/sounds/333489/download/"));
 		//StartCoroutine(HttpGet());
+	}
+
+	//for free sound 
+	public bool firstTimeLoad;
+	public bool validReady;
+
+	void checkTokenInfo()
+	{
+		//first check if this file is even there
+		if (File.Exists (Application.dataPath + "/dataFile")) {
+			//StreamReader a = File.OpenRead (Application.dataPath + "/dataFile");
+			importScript.accessInfo temp = importScript.accessInfo.createFromJSON (File.ReadAllText(Application.dataPath + "/dataFile"));
+			System.DateTime actualTime = System.DateTime.Parse(temp.expireTime);
+			//1 if date is valid, -1 otherwise
+			if (System.DateTime.Compare (actualTime, System.DateTime.Now) != -1) {
+				validReady = true;
+			}
+			else
+			{
+				if (GameObject.Find ("importCam").GetComponent<importScript> ().refreshToken (temp.refresh_token)) {
+					validReady = true;
+				} else {
+					//error
+				}
+				//return false;
+				//GameObject.Find ("importCam").GetComponent<importScript> ().refreshToken ();
+			}
+			Debug.Log (System.DateTime.Compare (actualTime, System.DateTime.Now));
+		} else {
+			//fresh login
+			firstTimeLoad = true;
+			validReady = false;
+		}
 	}
 
 	string URL = "https://www.freesound.org/apiv2/sounds/333489/download/";

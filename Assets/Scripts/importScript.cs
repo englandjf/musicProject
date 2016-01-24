@@ -26,11 +26,26 @@ public class importScript : MonoBehaviour {
 		//check for valid token in file, therefore skip login
 		//if invalid, request refresh token
 		//or if not present, prompt login and do whole process
+
+		//need something that handles first time login and sets valid ready to true;
 	}
-	
+
+
+	bool UISetup = false;
 	// Update is called once per frame
 	void Update () {
-	
+		//selected
+		if (gv.current.name == "importCam" && !UISetup) {
+			if (gv.validReady) {
+				validReady.SetActive (true);
+				freshStart.SetActive (false);
+			} else if (gv.firstTimeLoad) {
+				validReady.SetActive (false);
+				freshStart.SetActive (true);
+			}
+			UISetup = true;
+			
+		}
 	}
 
 	public void backPressed()
@@ -50,6 +65,7 @@ public class importScript : MonoBehaviour {
 
 	}
 
+	//for initil login
 	public void verifyCode()
 	{
 		StartCoroutine (verifyCall ());
@@ -59,7 +75,7 @@ public class importScript : MonoBehaviour {
 	IEnumerator verifyCall()
 	{
 		
-		Dictionary<string,string> headers = new Dictionary<string, string> ();
+		//Dictionary<string,string> headers = new Dictionary<string, string> ();
 		//headers.Add("client_id",);
 		//headers.Add("client_seceret",);
 		//headers.Add("grant_type","authorization_code");
@@ -74,9 +90,18 @@ public class importScript : MonoBehaviour {
 		WWW www = new WWW ("https://www.freesound.org/apiv2/oauth2/access_token/",wwwf);
 		yield return www;
 		Debug.Log (www.text);
-		accessInfo accessStorage = accessInfo.createFromJSON(www.text);
-		accessToken = accessStorage.access_token;
-		writeInfo (accessStorage);
+		if (www.error == null) {
+			accessInfo accessStorage = accessInfo.createFromJSON (www.text);
+			accessToken = accessStorage.access_token;
+			accessStorage.expireTime = System.DateTime.Now.AddDays (1).ToString ();
+			writeInfo (accessStorage);
+
+			//change ui and vars
+			gv.validReady = true;
+			UISetup = false;
+		} else {
+			//error
+		}
 		//accessStorage.createFromJSON(www.text);
 
 		//Debug.Log (accessInfo.toJson(accessStorage));
@@ -109,6 +134,30 @@ public class importScript : MonoBehaviour {
 		StreamWriter a = File.CreateText(Application.dataPath + "/dataFile");
 		a.Write(accessInfo.toJson(info));
 		a.Close ();
+	}
+		
+
+	public bool refreshToken(string RT)
+	{
+		Debug.Log ("Refresh called");
+		//error checking
+		refreshHelper(RT);
+		return true;
+		//gv.validReady = true;
+	}
+
+	//called if token is expired and login is present
+	IEnumerator refreshHelper(string RT)
+	{
+		WWWForm wwwf = new WWWForm();
+		wwwf.AddField("client_id","4656d370ed84017ab3bc");
+		wwwf.AddField("client_secret","081dc0326eb35d42dd3e44fda191713b9fcdba63");
+		wwwf.AddField("grant_type","refresh_token");
+		wwwf.AddField("code",RT);
+
+		WWW www = new WWW ("https://www.freesound.org/apiv2/oauth2/access_token/",wwwf);
+		yield return www;
+		Debug.Log (www.text);
 	}
 
 	//check refresh token when import script is selected for the first time on app launch
