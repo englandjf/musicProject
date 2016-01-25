@@ -241,35 +241,77 @@ public class importScript : MonoBehaviour {
 	//save copy(reference)
 	private searchResultParent sRPCopy;
 
+	//helper
+	private IEnumerator coroutine;
+
 	//play sound at index, must download sound first
 	public void playSound(int index)
 	{
 		//get id, downloand
 		//Debug.Log();
-		StartCoroutine(soundHelper(sRPCopy.results[index].id));
+		coroutine = soundHelper(sRPCopy.results[index].id,false);
+		StartCoroutine(coroutine);
 
 	}
 
+	//download sound
+	public void downloadSound(int index)
+	{
+		coroutine = soundHelper (sRPCopy.results [index].id, true);
+		StartCoroutine(coroutine);
+	}
+
+	/*
+	 *          while (!www.isDone) {
+             progress = "downloaded " + (www.progress*100).ToString() + "%...";
+             yield return null;
+         }
+         */
+
 	//used to play sounds 
 	public AudioSource playSource;
-	IEnumerator soundHelper(string id)
+	//used to show progress
+	public Text progressTrack;
+	IEnumerator soundHelper(string id,bool download)
 	{
 		Dictionary <string,string> headers = new Dictionary<string, string>();
 		headers.Add("Authorization", "Bearer " + gv.accessToken);
 		string wholeUrl = "https://www.freesound.org/apiv2/sounds/" + id+"/download/";
 		WWW www = new WWW(wholeUrl,null,headers);
-		Debug.Log("attempting to play " + www.url);
-		yield return www;
+		Debug.Log("Loading " + www.url);
+		//yield return www;
+
+		while (!www.isDone) {
+			progressTrack.text = "downloaded " + (www.progress * 100).ToString () + "%...";
+			yield return null;
+		}
+		progressTrack.text = "";
+
 		if(www.error == null)
 			Debug.Log("done");
 		else
 			Debug.Log(www.error);
 		Debug.Log("done");
 		//AudioClip loadedClip = www.GetAudioClip(false,false,AudioType.WAV);
+		playSource.clip = www.GetAudioClipCompressed (false, AudioType.WAV);
+		playSource.clip.name = id;//will change to name at some point
+		//maybe some sort of cache system, to avoid downloading again?
+		if (download) {
+			//save sound clip
+			string fullPath = Application.dataPath + "/" + playSource.clip.name + ".wav";
+			File.WriteAllBytes (fullPath, www.bytes);
+		} else {
+			
+			playSource.Play ();
+		}
 
-		playSource.clip = www.GetAudioClipCompressed(false,AudioType.WAV);
-		playSource.Play();
+	}
 
+	//stop current download
+	public void stopDownload()
+	{
+		StopCoroutine (coroutine);
+		progressTrack.text = "stopped";
 	}
 
 
