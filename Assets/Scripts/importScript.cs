@@ -61,10 +61,15 @@ public class importScript : MonoBehaviour {
 	}
 
 	//Login to free sound
+	public Text errorHandling;
 	public void loginPressed()
 	{
-		Application.OpenURL ("https://www.freesound.org/apiv2/oauth2/authorize/?client_id=4656d370ed84017ab3bc&response_type=code");
-
+		try{
+			Application.OpenURL ("https://www.freesound.org/apiv2/oauth2/authorize/?client_id=4656d370ed84017ab3bc&response_type=code");
+		}
+		catch {
+			errorHandling.text = "error";
+		}
 	}
 
 	//for initil login
