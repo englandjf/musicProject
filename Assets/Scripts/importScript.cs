@@ -19,6 +19,8 @@ public class importScript : MonoBehaviour {
 	//viewing options
 	public GameObject freshStart;
 	public GameObject validReady;
+	public GameObject searchUI;
+	public Text[] searchTexts;//->may change to game objects to include more options, play button 
 
 	// Use this for initialization
 	void Start () {
@@ -178,11 +180,13 @@ public class importScript : MonoBehaviour {
 	{
 		string baseUrl = "http://www.freesound.org/apiv2/search/text/";
 		string query1 = "?query=" + searchInput.text + "&";
+		string typeRequired = "filter=type:wav"+"&";
 		string apiKey = "token=081dc0326eb35d42dd3e44fda191713b9fcdba63";
-		string wholeUrl = baseUrl + query1 + apiKey;
+		string wholeUrl = baseUrl + query1 + typeRequired+ apiKey;
 		Debug.Log(wholeUrl);
 		StartCoroutine(startSearch(wholeUrl));
 	}
+		
 
 
 	//will give you one page, add page = 2, etc for others
@@ -192,14 +196,15 @@ public class importScript : MonoBehaviour {
 		WWW www = new WWW(wholeURL);
 		yield return www;
 		searchResultParent sRP = searchResultParent.createFromJSON(www.text);
-		//displayResults(sRP);
-		parseResults(sRP);
+		displayResults(sRP);
+		//parseResults(sRP);
 		Debug.Log(www.text);
 	}
 
 	//list of results
 	//public searchResult[] resultList;
 	//creates list of results
+	/*
 	void parseResults(searchResultParent sRP)
 	{
 		//15 results returned per query
@@ -216,9 +221,50 @@ public class importScript : MonoBehaviour {
 
 
 	}
+	*/
 
-	void displayResults()
+	void displayResults(searchResultParent sRP)
 	{
+		
+		for(int i = 0; i < sRP.results.Length;i++)
+		{
+			searchTexts[i].text = sRP.results[i].name;
+		}
+		searchUI.SetActive(true);
+		sRPCopy = sRP;
+	}
+	//save copy(reference)
+	private searchResultParent sRPCopy;
+
+	//play sound at index, must download sound first
+	public void playSound(int index)
+	{
+		//get id, downloand
+		//Debug.Log();
+		StartCoroutine(soundHelper(sRPCopy.results[index].id));
+
+	}
+
+	//used to play sounds 
+	public AudioSource playSource;
+	IEnumerator soundHelper(string id)
+	{
+		Dictionary <string,string> headers = new Dictionary<string, string>();
+		headers.Add("Authorization", "Bearer " + gv.accessToken);
+		string wholeUrl = "https://www.freesound.org/apiv2/sounds/" + id+"/download/";
+		WWW www = new WWW(wholeUrl,null,headers);
+		Debug.Log("attempting to play " + www.url);
+		yield return www;
+		if(www.error == null)
+			Debug.Log("done");
+		else
+			Debug.Log(www.error);
+		Debug.Log("done");
+		//AudioClip loadedClip = www.GetAudioClip(false,false,AudioType.WAV);
+
+		playSource.clip = www.GetAudioClipCompressed(false,AudioType.WAV);
+		playSource.Play();
+
 	}
 
 
