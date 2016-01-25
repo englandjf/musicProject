@@ -82,6 +82,7 @@ public class globalVars : MonoBehaviour {
 	//for free sound 
 	public bool firstTimeLoad;
 	public bool validReady;
+	public string accessToken;
 
 	void checkTokenInfo()
 	{
@@ -92,6 +93,7 @@ public class globalVars : MonoBehaviour {
 			System.DateTime actualTime = System.DateTime.Parse(temp.expireTime);
 			//1 if date is valid, -1 otherwise
 			if (System.DateTime.Compare (actualTime, System.DateTime.Now) != -1) {
+				accessToken = temp.access_token;
 				validReady = true;
 			}
 			else

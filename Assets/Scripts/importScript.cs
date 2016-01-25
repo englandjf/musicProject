@@ -14,7 +14,7 @@ public class importScript : MonoBehaviour {
 	public InputField authCode;
 
 	//the token used to make calls to free sound
-	string accessToken;
+	//string accessToken;
 
 	//viewing options
 	public GameObject freshStart;
@@ -92,7 +92,7 @@ public class importScript : MonoBehaviour {
 		Debug.Log (www.text);
 		if (www.error == null) {
 			accessInfo accessStorage = accessInfo.createFromJSON (www.text);
-			accessToken = accessStorage.access_token;
+			gv.accessToken = accessStorage.access_token;
 			accessStorage.expireTime = System.DateTime.Now.AddDays (1).ToString ();
 			writeInfo (accessStorage);
 
@@ -157,6 +157,12 @@ public class importScript : MonoBehaviour {
 
 		WWW www = new WWW ("https://www.freesound.org/apiv2/oauth2/access_token/",wwwf);
 		yield return www;
+
+		//rewrite file
+		accessInfo accessStorage = accessInfo.createFromJSON (www.text);
+		gv.accessToken = accessStorage.access_token;
+		accessStorage.expireTime = System.DateTime.Now.AddDays (1).ToString ();
+		writeInfo (accessStorage);
 		Debug.Log (www.text);
 	}
 
@@ -166,6 +172,96 @@ public class importScript : MonoBehaviour {
 	//sound object
 	//will have play option and add to project option
 
+	public InputField searchInput;
+
+	public void searchSounds()
+	{
+		string baseUrl = "http://www.freesound.org/apiv2/search/text/";
+		string query1 = "?query=" + searchInput.text + "&";
+		string apiKey = "token=081dc0326eb35d42dd3e44fda191713b9fcdba63";
+		string wholeUrl = baseUrl + query1 + apiKey;
+		Debug.Log(wholeUrl);
+		StartCoroutine(startSearch(wholeUrl));
+	}
+
+
+	//will give you one page, add page = 2, etc for others
+	IEnumerator startSearch(string wholeURL)
+	{
+
+		WWW www = new WWW(wholeURL);
+		yield return www;
+		searchResultParent sRP = searchResultParent.createFromJSON(www.text);
+		//displayResults(sRP);
+		parseResults(sRP);
+		Debug.Log(www.text);
+	}
+
+	//list of results
+	//public searchResult[] resultList;
+	//creates list of results
+	void parseResults(searchResultParent sRP)
+	{
+		//15 results returned per query
+		Debug.Log(sRP.results[0].name);
+
+		//resultList = new searchResult[15];
+		for(int i = 0; i < sRP.results.Length;i++)
+		{
+			Debug.Log(sRP.results[i].name);
+			//searchResult srTemp = searchResult.createFromJSON(sRP.results[i]);
+			//resultList[i] = srTemp;
+			//Debug.Log(srTemp.name);
+		}
+
+
+	}
+
+	void displayResults()
+	{
+	}
+
+
+
+	//searchResults
+	[System.Serializable]
+	public class searchResultParent
+	{
+		public string count;
+		public string next;
+		public string previous;
+		public searchResult[]  results;
+
+		public static searchResultParent createFromJSON(string jsonString)
+		{
+			return JsonUtility.FromJson<searchResultParent> (jsonString);	
+		}
+	}
+
+	//invdividual result
+	[System.Serializable]
+	public class searchResult
+	{
+		public string id;
+		public string name;
+		public string [] tags;
+		public string license;
+		public string username;
+
+		public static searchResult createFromJSON(string jsonString)
+		{
+			return JsonUtility.FromJson<searchResult> (jsonString);	
+		}
+	}
+
+
+	//for multiple text query
+	public void parseSearch()
+	{
+
+
+
+	}
 
 
 }
