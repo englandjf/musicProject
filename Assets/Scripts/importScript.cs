@@ -107,7 +107,7 @@ public class importScript : MonoBehaviour {
 			gv.validReady = true;
 			UISetup = false;
 		} else {
-			//error
+			errorHandling.text = www.error;
 		}
 		//accessStorage.createFromJSON(www.text);
 
@@ -138,7 +138,7 @@ public class importScript : MonoBehaviour {
 	public void writeInfo(accessInfo info)
 	{
 		//Debug.Log (Application.dataPath);
-		StreamWriter a = File.CreateText(Application.dataPath + "/dataFile");
+		StreamWriter a = File.CreateText(Application.persistentDataPath+ "/dataFile");
 		a.Write(accessInfo.toJson(info));
 		a.Close ();
 	}
@@ -298,7 +298,7 @@ public class importScript : MonoBehaviour {
 		//maybe some sort of cache system, to avoid downloading again?
 		if (download) {
 			//save sound clip
-			string fullPath = Application.dataPath + "/" + playSource.clip.name + ".wav";
+			string fullPath = Application.dataPath + "/" + playSource.clip.name + ".wav";//just testing
 			File.WriteAllBytes (fullPath, www.bytes);
 		} else {
 			
