@@ -20,7 +20,11 @@ public class importScript : MonoBehaviour {
 	public GameObject freshStart;
 	public GameObject validReady;
 	public GameObject searchUI;
-	public Text[] searchTexts;//->may change to game objects to include more options, play button 
+	public Text[] searchTexts;//->may change to game objects to include more options, play button
+
+	//cache system for sounds
+	Dictionary<string,AudioClip> cacheSounds;
+
 
 	// Use this for initialization
 	void Start () {
@@ -45,6 +49,7 @@ public class importScript : MonoBehaviour {
 				validReady.SetActive (false);
 				freshStart.SetActive (true);
 			}
+			cacheSounds = new Dictionary<string, AudioClip> ();
 			UISetup = true;
 			
 		}
@@ -52,12 +57,14 @@ public class importScript : MonoBehaviour {
 
 	public void backPressed()
 	{
+		UISetup = false;
 		gv.current.enabled = false;
 		gv.currentCanvas.enabled = false;
 		gv.current = gv.mainCam;
 		gv.currentCanvas = gv.mainCanvas;
 		gv.current.enabled = true;
 		gv.currentCanvas.enabled = true;
+	
 	}
 
 	//Login to free sound
@@ -138,6 +145,7 @@ public class importScript : MonoBehaviour {
 	public void writeInfo(accessInfo info)
 	{
 		//Debug.Log (Application.dataPath);
+		File.Delete(Application.persistentDataPath+ "/dataFile");
 		StreamWriter a = File.CreateText(Application.persistentDataPath+ "/dataFile");
 		a.Write(accessInfo.toJson(info));
 		a.Close ();
@@ -148,7 +156,7 @@ public class importScript : MonoBehaviour {
 	{
 		Debug.Log ("Refresh called");
 		//error checking
-		refreshHelper(RT);
+		StartCoroutine(refreshHelper(RT));
 		return true;
 		//gv.validReady = true;
 	}
@@ -160,17 +168,23 @@ public class importScript : MonoBehaviour {
 		wwwf.AddField("client_id","4656d370ed84017ab3bc");
 		wwwf.AddField("client_secret","081dc0326eb35d42dd3e44fda191713b9fcdba63");
 		wwwf.AddField("grant_type","refresh_token");
-		wwwf.AddField("code",RT);
+		wwwf.AddField("refresh_token",RT);
+
+		Debug.Log (RT);
 
 		WWW www = new WWW ("https://www.freesound.org/apiv2/oauth2/access_token/",wwwf);
 		yield return www;
+		Debug.Log (www.url);
+		Debug.Log (www.error);
 
 		//rewrite file
-		accessInfo accessStorage = accessInfo.createFromJSON (www.text);
-		gv.accessToken = accessStorage.access_token;
-		accessStorage.expireTime = System.DateTime.Now.AddDays (1).ToString ();
-		writeInfo (accessStorage);
-		Debug.Log (www.text);
+		if (www.error == null || www.error == "") {
+			accessInfo accessStorage = accessInfo.createFromJSON (www.text);
+			gv.accessToken = accessStorage.access_token;
+			accessStorage.expireTime = System.DateTime.Now.AddDays (1).ToString ();
+			writeInfo (accessStorage);
+			Debug.Log (www.text);
+		}
 	}
 
 	//check refresh token when import script is selected for the first time on app launch
@@ -274,36 +288,56 @@ public class importScript : MonoBehaviour {
 	public Text progressTrack;
 	IEnumerator soundHelper(string id,bool download)
 	{
-		Dictionary <string,string> headers = new Dictionary<string, string>();
-		headers.Add("Authorization", "Bearer " + gv.accessToken);
-		string wholeUrl = "https://www.freesound.org/apiv2/sounds/" + id+"/download/";
-		WWW www = new WWW(wholeUrl,null,headers);
-		Debug.Log("Loading " + www.url);
-		//yield return www;
+		//first check to make sure it wasnt already downloaded/cached
+		if (!cacheSounds.ContainsKey (id)) {
+			Dictionary <string,string> headers = new Dictionary<string, string> ();
+			headers.Add ("Authorization", "Bearer " + gv.accessToken);
+			string wholeUrl = "https://www.freesound.org/apiv2/sounds/" + id + "/download/";
+			WWW www = new WWW (wholeUrl, null, headers);
+			Debug.Log ("Loading " + www.url);
+			//yield return www;
 
-		while (!www.isDone) {
-			progressTrack.text = "downloaded " + (www.progress * 100).ToString () + "%...";
-			yield return null;
-		}
-		progressTrack.text = "";
+			while (!www.isDone) {
+				progressTrack.text = "downloaded " + (www.progress * 100).ToString () + "%...";
+				yield return null;
+			}
+			progressTrack.text = "";
 
-		if(www.error == null)
-			Debug.Log("done");
-		else
-			Debug.Log(www.error);
-		Debug.Log("done");
-		//AudioClip loadedClip = www.GetAudioClip(false,false,AudioType.WAV);
-		playSource.clip = www.GetAudioClipCompressed (false, AudioType.WAV);
-		playSource.clip.name = id;//will change to name at some point
-		//maybe some sort of cache system, to avoid downloading again?
-		if (download) {
-			//save sound clip
-			string fullPath = Application.dataPath + "/" + playSource.clip.name + ".wav";//just testing
-			File.WriteAllBytes (fullPath, www.bytes);
+			if (www.error == null)
+				Debug.Log ("done");
+			else
+				Debug.Log (www.error);
+			//AudioClip loadedClip = www.GetAudioClip(false,false,AudioType.WAV);
+			playSource.clip = www.GetAudioClipCompressed (false, AudioType.WAV);
+			playSource.clip.name = id;//will change to name at some point
+			cacheSounds.Add (playSource.clip.name, playSource.clip);
+
+			if (download) {
+				//save sound clip
+				string fullPath = Application.dataPath + "/" + playSource.clip.name + ".wav";//just testing
+				File.WriteAllBytes (fullPath, www.bytes);
+			} else {
+
+				playSource.Play ();
+			}
 		} else {
-			
-			playSource.Play ();
+			AudioClip tempClip;
+			cacheSounds.TryGetValue (id, out tempClip);
+			playSource.clip = tempClip;
+
+			if (download) {
+				//save sound clip
+				string fullPath = Application.dataPath + "/" + playSource.clip.name + ".wav";//just testing
+
+				//File.WriteAllBytes (fullPath, www.bytes);
+			} else {
+				playSource.Play ();
+			}
 		}
+
+		//maybe some sort of cache system, to avoid downloading again?
+		//check to make sure it has not already been downloaded
+
 
 	}
 
