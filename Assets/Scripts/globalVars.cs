@@ -92,7 +92,7 @@ public class globalVars : MonoBehaviour {
 			importScript.accessInfo temp = importScript.accessInfo.createFromJSON (File.ReadAllText(Application.persistentDataPath + "/dataFile"));
 			System.DateTime actualTime = System.DateTime.Parse(temp.expireTime);
 			//1 if date is valid, -1 otherwise
-			if (System.DateTime.Compare (actualTime, System.DateTime.Now) != 1) {
+			if (System.DateTime.Compare (actualTime, System.DateTime.Now) != -1) {
 				accessToken = temp.access_token;
 				validReady = true;
 			}

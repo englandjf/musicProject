@@ -49,14 +49,19 @@ public class importScript : MonoBehaviour {
 				validReady.SetActive (false);
 				freshStart.SetActive (true);
 			}
-			cacheSounds = new Dictionary<string, AudioClip> ();
+
 			UISetup = true;
+			cacheSounds = new Dictionary<string, AudioClip> ();
+			deleteList = new List<string> ();
 			
 		}
 	}
 
 	public void backPressed()
 	{
+
+		//cleanup downloads
+		StartCoroutine(cleanupSounds());
 		UISetup = false;
 		gv.current.enabled = false;
 		gv.currentCanvas.enabled = false;
@@ -64,7 +69,21 @@ public class importScript : MonoBehaviour {
 		gv.currentCanvas = gv.mainCanvas;
 		gv.current.enabled = true;
 		gv.currentCanvas.enabled = true;
+
+
 	
+	}
+
+	//mark tracks that dont want to be kept
+	List<string> deleteList;
+	//cleanup unwanted sounds
+	IEnumerator cleanupSounds()
+	{
+		foreach (string soundName in deleteList) {
+			File.Delete (Application.dataPath + "/" + soundName + ".wav");
+			Debug.Log ("Deleted " + soundName);
+		}
+		yield return null;
 	}
 
 	//Login to free sound
@@ -286,6 +305,7 @@ public class importScript : MonoBehaviour {
 	public AudioSource playSource;
 	//used to show progress
 	public Text progressTrack;
+
 	IEnumerator soundHelper(string id,bool download)
 	{
 		//first check to make sure it wasnt already downloaded/cached
@@ -312,27 +332,31 @@ public class importScript : MonoBehaviour {
 			playSource.clip.name = id;//will change to name at some point
 			cacheSounds.Add (playSource.clip.name, playSource.clip);
 
-			if (download) {
-				//save sound clip
-				string fullPath = Application.dataPath + "/" + playSource.clip.name + ".wav";//just testing
-				File.WriteAllBytes (fullPath, www.bytes);
-			} else {
+			//create a directory if there isnt one
+			if (!System.IO.Directory.Exists (Application.dataPath + "/Downloads/"))//change to persistent
+				System.IO.Directory.CreateDirectory (Application.dataPath + "/Downloads/");//change to persistent
 
+			string fullPath = Application.dataPath + "/Downloads/" + playSource.clip.name + ".wav";//just testing, need to change to persistent
+			File.WriteAllBytes (fullPath, www.bytes);
+
+			//delete when navigated away from this page
+			if (!download) {
 				playSource.Play ();
+				deleteList.Add (id);
+			} else {
+				gv.gameObject.GetComponent<soundBank> ().addedSounds.Add (playSource.clip.name + ".wav");
 			}
-		} else {
+
+
+
+
+		}
+		//sound has been cached
+		else {
 			AudioClip tempClip;
 			cacheSounds.TryGetValue (id, out tempClip);
 			playSource.clip = tempClip;
-
-			if (download) {
-				//save sound clip
-				string fullPath = Application.dataPath + "/" + playSource.clip.name + ".wav";//just testing
-
-				//File.WriteAllBytes (fullPath, www.bytes);
-			} else {
-				playSource.Play ();
-			}
+			playSource.Play ();
 		}
 
 		//maybe some sort of cache system, to avoid downloading again?
