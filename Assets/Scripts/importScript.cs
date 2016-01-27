@@ -74,13 +74,13 @@ public class importScript : MonoBehaviour {
 	
 	}
 
-	//mark tracks that dont want to be kept
+	//mark tracks that dont want to be kept, needs to delete sounds if sent to background or closed
 	List<string> deleteList;
 	//cleanup unwanted sounds
 	IEnumerator cleanupSounds()
 	{
 		foreach (string soundName in deleteList) {
-			File.Delete (Application.dataPath + "/" + soundName + ".wav");
+			File.Delete (gv.filePath + soundName + ".wav");
 			Debug.Log ("Deleted " + soundName);
 		}
 		yield return null;
@@ -333,10 +333,10 @@ public class importScript : MonoBehaviour {
 			cacheSounds.Add (playSource.clip.name, playSource.clip);
 
 			//create a directory if there isnt one
-			if (!System.IO.Directory.Exists (Application.dataPath + "/Downloads/"))//change to persistent
+			if (!System.IO.Directory.Exists (gv.filePath))//change to persistent
 				System.IO.Directory.CreateDirectory (Application.dataPath + "/Downloads/");//change to persistent
 
-			string fullPath = Application.dataPath + "/Downloads/" + playSource.clip.name + ".wav";//just testing, need to change to persistent
+			string fullPath = gv.filePath + playSource.clip.name + ".wav";//just testing, need to change to persistent
 			File.WriteAllBytes (fullPath, www.bytes);
 
 			//delete when navigated away from this page

@@ -54,6 +54,13 @@ public class soundBank : MonoBehaviour {
 	void loadDownloadedSounds()
 	{
 		
+		string[] downSounds = System.IO.Directory.GetFiles (gv.filePath);
+		for (int i = 0; i < downSounds.Length; i++) {
+			//dont get meta files
+			if(!downSounds[i].Contains(".meta"))
+				Debug.Log (downSounds [i]);
+		}
+
 	}
 	
 	// Update is called once per frame

@@ -7,6 +7,7 @@ using System.IO;
 
 public class globalVars : MonoBehaviour {
 
+	public string filePath;
 
 	public GameObject overObject;
 	public GameObject selectedObject;
@@ -59,6 +60,9 @@ public class globalVars : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		//set file path
+		filePath =  Application.dataPath + "/Downloads/";
+
 		allGroups = new Hashtable ();
 		allSounds = new List<AudioSource> ();
 		allGroupA = new List<AudioSource> ();
