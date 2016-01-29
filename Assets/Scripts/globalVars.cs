@@ -61,7 +61,7 @@ public class globalVars : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		//set file path
-		filePath =  Application.dataPath + "/Downloads/";
+		filePath =  Application.dataPath+ "/Downloads/";
 
 		allGroups = new Hashtable ();
 		allSounds = new List<AudioSource> ();

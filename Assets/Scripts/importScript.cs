@@ -333,10 +333,10 @@ public class importScript : MonoBehaviour {
 			cacheSounds.Add (playSource.clip.name, playSource.clip);
 
 			//create a directory if there isnt one
-			if (!System.IO.Directory.Exists (gv.filePath))//change to persistent
-				System.IO.Directory.CreateDirectory (Application.dataPath + "/Downloads/");//change to persistent
+			if (!System.IO.Directory.Exists (Application.persistentDataPath + "/Downloads"))//change to persistent?
+				System.IO.Directory.CreateDirectory (Application.persistentDataPath + "/Downloads");//change to persistent
 
-			string fullPath = gv.filePath + playSource.clip.name + ".wav";//just testing, need to change to persistent
+			string fullPath = Application.persistentDataPath + "/Downloads/" + playSource.clip.name + ".wav";//just testing, need to change to persistent
 			File.WriteAllBytes (fullPath, www.bytes);
 
 			//delete when navigated away from this page

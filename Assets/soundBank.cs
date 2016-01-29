@@ -44,23 +44,53 @@ public class soundBank : MonoBehaviour {
 	void loadAddedSounds()
 	{
 		foreach (string fileName in addedSounds) {
-			AudioClip loadedClip = new AudioClip ();
-			//File.
-			//downloadedList.Add(
+			//AudioClip loadedClip = Resources.Load<AudioClip> (Application.persistentDataPath + "/Downloads/" + fileName);
+			StartCoroutine(loadFile(Application.persistentDataPath + "/Downloads/" + fileName));
+			//downloadedList.Add (loadedClip);
 		}
+		addedSounds.Clear ();
 	}
 
 	//do at launch to grab any downloaded sounds 
 	void loadDownloadedSounds()
 	{
-		
-		string[] downSounds = System.IO.Directory.GetFiles (gv.filePath);
+		//StartCoroutine (loadFile ());
+
+		downloadedList = new List<AudioClip> ();
+
+		string[] downSounds = System.IO.Directory.GetFiles (Application.persistentDataPath + "/Downloads");
+		Debug.Log (downSounds.Length);
 		for (int i = 0; i < downSounds.Length; i++) {
 			//dont get meta files
-			if(!downSounds[i].Contains(".meta"))
+			if (!downSounds [i].Contains (".meta")) {
 				Debug.Log (downSounds [i]);
+				StartCoroutine (loadFile (downSounds[i]));
+				//AudioClip loadedClip = Resources.Load<AudioClip> (downSounds[i]);
+				//downloadedList.Add (loadedClip);
+			}
 		}
 
+
+	}
+	/*
+	 * var bytes = System.IO.File.ReadAllBytes(Application.dataPath+Saves.ToString()+".png");
+	var tex = new Texture2D(4,4);
+	tex.LoadImage(bytes);
+	*/
+
+	IEnumerator loadFile(string filePath)
+	{
+		Debug.Log ("Enter");
+		//byte[] loadedData = System.IO.File.ReadAllBytes (filePath);
+		//AudioClip tempClip = loadedData;
+		WWW www = new WWW("file://" + filePath);
+		//Object[] tempAll = Resources.LoadAll (Application.persistentDataPath + "/Resources/Downloads");
+		//AudioClip loadedClip = Resources.Load<AudioClip> (path);
+		yield return www;
+
+		Debug.Log (www.error);
+			
+		downloadedList.Add (www.audioClip);
 	}
 	
 	// Update is called once per frame
