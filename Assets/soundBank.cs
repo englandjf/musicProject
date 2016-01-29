@@ -84,13 +84,17 @@ public class soundBank : MonoBehaviour {
 		//byte[] loadedData = System.IO.File.ReadAllBytes (filePath);
 		//AudioClip tempClip = loadedData;
 		WWW www = new WWW("file://" + filePath);
+		int tempIndex = filePath.IndexOf ("Downloads");
+		Debug.Log (filePath.Remove(0,tempIndex+10));
 		//Object[] tempAll = Resources.LoadAll (Application.persistentDataPath + "/Resources/Downloads");
 		//AudioClip loadedClip = Resources.Load<AudioClip> (path);
 		yield return www;
 
 		Debug.Log (www.error);
 			
-		downloadedList.Add (www.audioClip);
+		AudioClip tempClip = www.audioClip;
+		tempClip.name = filePath.Remove (0, tempIndex + 10);
+		downloadedList.Add (tempClip);
 	}
 	
 	// Update is called once per frame

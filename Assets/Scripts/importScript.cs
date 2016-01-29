@@ -80,7 +80,7 @@ public class importScript : MonoBehaviour {
 	IEnumerator cleanupSounds()
 	{
 		foreach (string soundName in deleteList) {
-			File.Delete (gv.filePath + soundName + ".wav");
+			File.Delete (Application.persistentDataPath+soundName+".wav");
 			Debug.Log ("Deleted " + soundName);
 		}
 		yield return null;
@@ -282,7 +282,7 @@ public class importScript : MonoBehaviour {
 	{
 		//get id, downloand
 		//Debug.Log();
-		coroutine = soundHelper(sRPCopy.results[index].id,false);
+		coroutine = soundHelper(sRPCopy.results[index],false);
 		StartCoroutine(coroutine);
 
 	}
@@ -290,7 +290,7 @@ public class importScript : MonoBehaviour {
 	//download sound
 	public void downloadSound(int index)
 	{
-		coroutine = soundHelper (sRPCopy.results [index].id, true);
+		coroutine = soundHelper (sRPCopy.results [index], true);
 		StartCoroutine(coroutine);
 	}
 
@@ -306,13 +306,13 @@ public class importScript : MonoBehaviour {
 	//used to show progress
 	public Text progressTrack;
 
-	IEnumerator soundHelper(string id,bool download)
+	IEnumerator soundHelper(searchResult sr,bool download)
 	{
 		//first check to make sure it wasnt already downloaded/cached
-		if (!cacheSounds.ContainsKey (id)) {
+		if (!cacheSounds.ContainsKey (sr.id)) {
 			Dictionary <string,string> headers = new Dictionary<string, string> ();
 			headers.Add ("Authorization", "Bearer " + gv.accessToken);
-			string wholeUrl = "https://www.freesound.org/apiv2/sounds/" + id + "/download/";
+			string wholeUrl = "https://www.freesound.org/apiv2/sounds/" + sr.id + "/download/";
 			WWW www = new WWW (wholeUrl, null, headers);
 			Debug.Log ("Loading " + www.url);
 			//yield return www;
@@ -329,8 +329,8 @@ public class importScript : MonoBehaviour {
 				Debug.Log (www.error);
 			//AudioClip loadedClip = www.GetAudioClip(false,false,AudioType.WAV);
 			playSource.clip = www.GetAudioClipCompressed (false, AudioType.WAV);
-			playSource.clip.name = id;//will change to name at some point
-			cacheSounds.Add (playSource.clip.name, playSource.clip);
+			playSource.clip.name = sr.name;//will change to name at some point
+			cacheSounds.Add (sr.id, playSource.clip);
 
 			//create a directory if there isnt one
 			if (!System.IO.Directory.Exists (Application.persistentDataPath + "/Downloads"))//change to persistent?
@@ -342,7 +342,7 @@ public class importScript : MonoBehaviour {
 			//delete when navigated away from this page
 			if (!download) {
 				playSource.Play ();
-				deleteList.Add (id);
+				deleteList.Add (playSource.clip.name);
 			} else {
 				gv.gameObject.GetComponent<soundBank> ().addedSounds.Add (playSource.clip.name + ".wav");
 			}
@@ -354,7 +354,7 @@ public class importScript : MonoBehaviour {
 		//sound has been cached
 		else {
 			AudioClip tempClip;
-			cacheSounds.TryGetValue (id, out tempClip);
+			cacheSounds.TryGetValue (sr.name, out tempClip);
 			playSource.clip = tempClip;
 			playSource.Play ();
 		}
