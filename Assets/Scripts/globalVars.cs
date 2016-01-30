@@ -53,8 +53,6 @@ public class globalVars : MonoBehaviour {
 
 
 
-
-
 	//idea for y axis
 	//stereo left and right, pitch, allow selection?
 
@@ -368,7 +366,7 @@ public class globalVars : MonoBehaviour {
 
 	public void deleteHelper()
 	{
-		if(selectedObject)
+		if (selectedObject && sb.soundDropdown.value != 0)
 			selectedObject.GetComponent<soundScript> ().deleteSound ();
 	}
 

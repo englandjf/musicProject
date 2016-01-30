@@ -1,12 +1,13 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/importScript.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/globalVars.cs">
     <Files>
-      <File FileName="Assets/soundBank.cs" Line="87" Column="37" />
+      <File FileName="Assets/soundBank.cs" Line="124" Column="16" />
       <File FileName="Assets/soundEditScript.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/importScript.cs" Line="83" Column="64" />
-      <File FileName="Assets/Scripts/globalVars.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/createScript.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/importScript.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/globalVars.cs" Line="369" Column="52" />
+      <File FileName="Assets/Scripts/createScript.cs" Line="37" Column="7" />
+      <File FileName="Assets/Scripts/soundScript.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

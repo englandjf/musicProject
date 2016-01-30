@@ -32,21 +32,24 @@ public class createScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetMouseButtonDown (0) && !gv.overObject && gv.current.name == "main" && gv.soundOptions.value != 0) {
-			Vector3 mp = GetComponent<Camera>().ScreenToWorldPoint(Input.mousePosition);
+		if (Input.GetMouseButtonDown (0) && !gv.overObject && gv.current.name == "main" 
+			&& (gv.sb.currentMenuState.ToString() == "included"
+				|| gv.sb.currentMenuState.ToString() == "downloads")) {
+			Vector3 mp = GetComponent<Camera> ().ScreenToWorldPoint (Input.mousePosition);
 			mp.z = 0;
-			if(mp.y < 3.5 && mp.y > -3.5){
+			if (mp.y < 3.5 && mp.y > -3.5) {
 				//if (!gv.selectedObject) {
-					GameObject temp = (GameObject)Instantiate (soundObject, mp, this.transform.rotation);
-					temp.name += gv.soundNumber;
-					gv.soundNumber++;
-					if (groupOptions.value != 0)
-						temp.GetComponent<soundScript> ().groupName = groupOptions.options [groupOptions.value].text;
+				GameObject temp = (GameObject)Instantiate (soundObject, mp, this.transform.rotation);
+				temp.name += gv.soundNumber;
+				gv.soundNumber++;
+				if (groupOptions.value != 0)
+					temp.GetComponent<soundScript> ().groupName = groupOptions.options [groupOptions.value].text;
 				//} else
 				//	gv.selectedObject = null;
 			}
 		}
 	}
+		
 
 	void setupGroupOptions()
 	{

@@ -33,8 +33,7 @@ public class soundBank : MonoBehaviour {
 		addedSounds = new List<string> ();
 		//allList = new List<AudioClip> ();
 		//Clear and add title
-		soundDropdown.options = new List<Dropdown.OptionData> ();
-		soundDropdown.options.Add(new Dropdown.OptionData("Sounds"));
+
 		setupDropdown ();
 
 
@@ -65,8 +64,6 @@ public class soundBank : MonoBehaviour {
 			if (!downSounds [i].Contains (".meta")) {
 				Debug.Log (downSounds [i]);
 				StartCoroutine (loadFile (downSounds[i]));
-				//AudioClip loadedClip = Resources.Load<AudioClip> (downSounds[i]);
-				//downloadedList.Add (loadedClip);
 			}
 		}
 
@@ -95,6 +92,7 @@ public class soundBank : MonoBehaviour {
 		AudioClip tempClip = www.audioClip;
 		tempClip.name = filePath.Remove (0, tempIndex + 10);
 		downloadedList.Add (tempClip);
+		downloadMenu.Add (new Dropdown.OptionData (tempClip.name));
 	}
 	
 	// Update is called once per frame
@@ -118,14 +116,75 @@ public class soundBank : MonoBehaviour {
 	public AudioClip getSoundAtIndex(int index)
 	{
 		Debug.Log (index);
-		return allList[index];
+		if (currentMenuState == menuState.included)
+			return allList [index];
+		else if (currentMenuState == menuState.downloads)
+			return downloadedList [index];
+		else
+			return null;
 	}
 
+
+	List<Dropdown.OptionData> mainMenu;
+	List<Dropdown.OptionData> downloadMenu;
+	List<Dropdown.OptionData> includedSounds;
+	public menuState currentMenuState;
 	void setupDropdown()
 	{
+		currentMenuState = menuState.main;
+		mainMenu = new List<Dropdown.OptionData> ();
+		mainMenu.Add(new Dropdown.OptionData("Sounds"));
+		mainMenu.Add (new Dropdown.OptionData ("Downloads"));
+		mainMenu.Add (new Dropdown.OptionData (""));
+		soundDropdown.options = mainMenu;
+		soundDropdown.value = 2;
+
+		downloadMenu = new List<Dropdown.OptionData> ();
+		downloadMenu.Add (new Dropdown.OptionData ("Back"));
+
+		includedSounds = new List<Dropdown.OptionData> ();
+		includedSounds.Add (new Dropdown.OptionData ("Back"));
+
 		Debug.Log (allList.Count);
 		for (int i =0; i < allList.Count; i++) {
-			soundDropdown.options.Add(new Dropdown.OptionData(allList[i].name));
+			includedSounds.Add(new Dropdown.OptionData(allList[i].name));
+		}
+	}
+
+	public enum menuState {main,downloads,included};
+ 	//handle change to download list
+	public void listValueChanged()
+	{
+		Debug.Log ("VAlue " + soundDropdown.value + currentMenuState);
+		if (currentMenuState == menuState.main) {
+			//got to sound menu
+			if (soundDropdown.value == 0) {
+				soundDropdown.options = includedSounds;
+				currentMenuState = menuState.included;
+				soundDropdown.value = 1;
+			}
+			//go to download menu
+			else if(soundDropdown.value == 1)
+			{
+				soundDropdown.options = downloadMenu;
+				currentMenuState = menuState.downloads;
+				soundDropdown.value = 1;
+			}
+		} else if (currentMenuState == menuState.downloads) {
+			//go back
+			if (soundDropdown.value == 0) {
+				soundDropdown.options = mainMenu;
+
+				currentMenuState = menuState.main;
+				soundDropdown.value = 2;
+			}
+		} else if (currentMenuState == menuState.included) {
+			if(soundDropdown.value == 0)
+			{
+				soundDropdown.options = mainMenu;
+				currentMenuState = menuState.main;
+				soundDropdown.value = 2;
+			}
 		}
 	}
 
