@@ -190,8 +190,10 @@ public class soundEditScript : MonoBehaviour {
 		if (echoToggle.isOn) {
 			if(!echoFilter)
 			{
-				if(groupName == "")
-					echoFilter = soundReference.AddComponent<AudioEchoFilter>();
+				if (groupName == "") {
+					echoFilter = soundReference.AddComponent<AudioEchoFilter> ();
+					echoOptions.GetComponent<echoScript> ().filterReference = echoFilter;
+				}
 				else{
 
 				}
@@ -203,6 +205,7 @@ public class soundEditScript : MonoBehaviour {
 				if(groupName == ""){
 					Component.Destroy(soundReference.GetComponent<AudioEchoFilter>());
 					echoFilter = null;
+					echoOptions.GetComponent<echoScript> ().filterReference = null;
 				}
 				else{
 				}
@@ -217,8 +220,10 @@ public class soundEditScript : MonoBehaviour {
 		if (chorusToggle.isOn) {
 			if(!chorusFilter)
 			{
-				if(groupName == "")
-					chorusFilter = soundReference.AddComponent<AudioChorusFilter>();
+				if (groupName == "") {
+					chorusFilter = soundReference.AddComponent<AudioChorusFilter> ();
+					chorusOptions.GetComponent<chorusScript> ().filterReference = chorusFilter;
+				}
 				else{
 				}
 			}
@@ -229,6 +234,7 @@ public class soundEditScript : MonoBehaviour {
 				if(groupName == ""){
 					Component.Destroy(soundReference.GetComponent<AudioChorusFilter>());
 					chorusFilter = null;
+					chorusOptions.GetComponent<chorusScript> ().filterReference = null;
 				}
 				else
 				{
@@ -244,8 +250,10 @@ public class soundEditScript : MonoBehaviour {
 		if (reverbToggle.isOn) {
 			if(!reverbFilter)
 			{
-				if(groupName == "")
-					reverbFilter = soundReference.AddComponent<AudioReverbFilter>();
+				if (groupName == "") {
+					reverbFilter = soundReference.AddComponent<AudioReverbFilter> ();
+					reverbOptions.GetComponent<reverbScript>().filterReference = reverbFilter;
+				}
 				else{
 				}
 			}
@@ -256,6 +264,7 @@ public class soundEditScript : MonoBehaviour {
 				if(groupName == ""){
 					Component.Destroy(soundReference.GetComponent<AudioReverbFilter>());
 					chorusFilter = null;
+					reverbOptions.GetComponent<reverbScript> ().filterReference = null;
 				}
 				else{
 				}
@@ -270,8 +279,10 @@ public class soundEditScript : MonoBehaviour {
 		if (distortionToggle.isOn) {
 			if(!distortionFilter)
 			{
-				if(groupName == "")
-					distortionFilter = soundReference.AddComponent<AudioDistortionFilter>();
+				if (groupName == "") {
+					distortionFilter = soundReference.AddComponent<AudioDistortionFilter> ();
+					distortionOptions.GetComponent<distortionScript> ().filterReference = distortionFilter;
+				}
 				else
 				{
 
@@ -284,6 +295,7 @@ public class soundEditScript : MonoBehaviour {
 				if(groupName == ""){
 					Component.Destroy(soundReference.GetComponent<AudioDistortionFilter>());
 					distortionFilter = null;
+					distortionOptions.GetComponent<distortionScript> ().filterReference = null;
 				}
 				else{
 				}
