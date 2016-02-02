@@ -54,6 +54,9 @@ public class soundBank : MonoBehaviour {
 	void loadDownloadedSounds()
 	{
 		//StartCoroutine (loadFile ());
+		//Directory check
+		if(!Directory.Exists(Application.persistentDataPath+"/Downloads"))
+			Directory.CreateDirectory(Application.persistentDataPath+"/Downloads");
 
 		downloadedList = new List<AudioClip> ();
 

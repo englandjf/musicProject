@@ -19,7 +19,8 @@ public class echoScript : MonoBehaviour {
 	void OnEnable()
 	{
 		//Debug.Log ("Enabled");
-		loadCurrentValues ();
+		if(filterReference)
+			loadCurrentValues ();
 	}
 
 	void loadCurrentValues()
