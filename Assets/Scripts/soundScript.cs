@@ -192,7 +192,7 @@ public class soundScript : MonoBehaviour {
 
 	void OnTriggerExit2D(Collider2D a)
 	{
-		if(a.gameObject.name == "bar")
+		if(a.gameObject.name == "bar" && this.gameObject.GetComponent<AudioEchoFilter>() == null)
 			mainSource.Stop ();
 		else
 			clearToplace = true;

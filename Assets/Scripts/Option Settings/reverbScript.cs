@@ -15,11 +15,11 @@ public class reverbScript : MonoBehaviour {
 	{
 		//setup hashtable
 		nameToReverbPreset = new Hashtable();
+		advancedOptions.options = new System.Collections.Generic.List<Dropdown.OptionData> ();
 		nameToReverbPreset.Add ("Alley", AudioReverbPreset.Alley);
+		advancedOptions.options.Add(new Dropdown.OptionData("Alley"));
 		//...mas
 
-		advancedOptions.options = new System.Collections.Generic.List<Dropdown.OptionData> ();
-		//advancedOptions.options.Add(
 	}
 	
 	// Update is called once per frame
