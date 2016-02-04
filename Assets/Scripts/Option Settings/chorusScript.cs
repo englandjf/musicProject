@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class chorusScript : MonoBehaviour {
 
+	//for each, we need to apply to changed effect to all sounds, maybe do it when back is pressed
+
 	public AudioChorusFilter filterReference;
 
 	// Use this for initialization

@@ -302,9 +302,14 @@ public class soundScript : MonoBehaviour {
 
 	public void deleteSound()
 	{
+		Debug.Log (groupName);
 		//Delete from list
-		List<AudioSource> a =  (List<AudioSource>)gv.allGroups["Master"];
-		a.Remove(mainSource);
+		List<AudioSource> masterTemp =  (List<AudioSource>)gv.allGroups["Master"];
+		List<AudioSource> groupTemp = (List<AudioSource>)gv.allGroups[groupName];
+		if (groupName != "") {
+			groupTemp.Remove (mainSource);
+		}
+		masterTemp.Remove(mainSource);
 		Destroy (this.gameObject);
 		gv.selectedObject = null;
 		//what about for a group?

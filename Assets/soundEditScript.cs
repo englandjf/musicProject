@@ -408,7 +408,7 @@ public class soundEditScript : MonoBehaviour {
 		}
 	}
 
-	//Play sound 
+	//Play sound, possible save button?
 	public void playSound()
 	{
 		sourceSound.Play ();
@@ -416,5 +416,42 @@ public class soundEditScript : MonoBehaviour {
 		soundReference.GetComponent<soundScript>().gameSoundEnd = Time.time + sourceSound.clip.length;
 	}
 
+	//apply modifications to all memebers of the group
+	public void applyChanges()
+	{
+		//echo modified
+		if (echoFilter) {
+			AudioEchoFilter temp = soundReference.GetComponent<AudioEchoFilter> ();
+			foreach (AudioSource a in includedGroup) {
+				AudioEchoFilter temp2 = a.gameObject.GetComponent<AudioEchoFilter> ();
+				temp2 = temp;
+			}
+		}
+		//chorus modified
+		if (chorusFilter) {
+			AudioChorusFilter temp = soundReference.GetComponent<AudioChorusFilter> ();
+			foreach (AudioSource a in includedGroup) {
+				AudioChorusFilter temp2 = a.gameObject.GetComponent<AudioChorusFilter> ();
+				temp2 = temp;
+			}
+		}
+		//reverb modified
+		if (reverbFilter) {
+			AudioReverbFilter temp = soundReference.GetComponent<AudioReverbFilter> ();
+			foreach (AudioSource a in includedGroup) {
+				AudioReverbFilter temp2 = a.gameObject.GetComponent<AudioReverbFilter> ();
+				temp2 = temp;
+			}
+		}
+		//distortion modified
+		if (distortionFilter) {
+			AudioDistortionFilter temp = soundReference.GetComponent<AudioDistortionFilter> ();
+			foreach (AudioSource a in includedGroup) {
+				AudioDistortionFilter temp2 = a.gameObject.GetComponent<AudioDistortionFilter> ();
+				temp2 = temp;
+			}
+		}
+
+	}
 
 }
