@@ -192,11 +192,15 @@ public class soundEditScript : MonoBehaviour {
 			{
 				if (groupName == "") {
 					echoFilter = soundReference.AddComponent<AudioEchoFilter> ();
-					echoOptions.GetComponent<echoScript> ().filterReference = echoFilter;
 				}
 				else{
-
+					foreach (AudioSource a in includedGroup) {
+						a.gameObject.AddComponent<AudioEchoFilter> ();
+					}
+					//use first one as reference
+					echoFilter = includedGroup[0].gameObject.GetComponent<AudioEchoFilter>();
 				}
+				echoOptions.GetComponent<echoScript> ().filterReference = echoFilter;
 			}
 			echoOptions.SetActive (true);
 		} else {
@@ -204,11 +208,14 @@ public class soundEditScript : MonoBehaviour {
 			{
 				if(groupName == ""){
 					Component.Destroy(soundReference.GetComponent<AudioEchoFilter>());
-					echoFilter = null;
-					echoOptions.GetComponent<echoScript> ().filterReference = null;
 				}
 				else{
+					foreach (AudioSource a in includedGroup) {
+						Component.Destroy (a.gameObject.GetComponent<AudioEchoFilter> ());
+					}
 				}
+				echoFilter = null;
+				echoOptions.GetComponent<echoScript> ().filterReference = null;
 			}
 			echoOptions.SetActive (false);
 		}
@@ -222,10 +229,15 @@ public class soundEditScript : MonoBehaviour {
 			{
 				if (groupName == "") {
 					chorusFilter = soundReference.AddComponent<AudioChorusFilter> ();
-					chorusOptions.GetComponent<chorusScript> ().filterReference = chorusFilter;
 				}
 				else{
+					foreach (AudioSource a in includedGroup) {
+						a.gameObject.AddComponent<AudioChorusFilter> ();
+					}
+					//use first one as reference
+					chorusFilter = includedGroup[0].gameObject.GetComponent<AudioChorusFilter>();
 				}
+				chorusOptions.GetComponent<chorusScript> ().filterReference = chorusFilter;
 			}
 			chorusOptions.SetActive (true);
 		} else {
@@ -233,12 +245,15 @@ public class soundEditScript : MonoBehaviour {
 			{
 				if(groupName == ""){
 					Component.Destroy(soundReference.GetComponent<AudioChorusFilter>());
-					chorusFilter = null;
-					chorusOptions.GetComponent<chorusScript> ().filterReference = null;
 				}
 				else
 				{
+					foreach (AudioSource a in includedGroup) {
+						Component.Destroy (a.gameObject.GetComponent<AudioChorusFilter> ());
+					}
 				}
+				chorusFilter = null;
+				chorusOptions.GetComponent<chorusScript> ().filterReference = null;
 			}
 			chorusOptions.SetActive (false);
 		}
@@ -252,10 +267,16 @@ public class soundEditScript : MonoBehaviour {
 			{
 				if (groupName == "") {
 					reverbFilter = soundReference.AddComponent<AudioReverbFilter> ();
-					reverbOptions.GetComponent<reverbScript>().filterReference = reverbFilter;
+
 				}
 				else{
+					foreach (AudioSource a in includedGroup) {
+						a.gameObject.AddComponent<AudioReverbFilter> ();
+					}
+					//use first one as reference
+					reverbFilter = includedGroup[0].gameObject.GetComponent<AudioReverbFilter>();
 				}
+				reverbOptions.GetComponent<reverbScript>().filterReference = reverbFilter;
 			}
 			reverbOptions.SetActive (true);
 		} else {
@@ -263,11 +284,14 @@ public class soundEditScript : MonoBehaviour {
 			{
 				if(groupName == ""){
 					Component.Destroy(soundReference.GetComponent<AudioReverbFilter>());
-					chorusFilter = null;
-					reverbOptions.GetComponent<reverbScript> ().filterReference = null;
 				}
 				else{
+					foreach (AudioSource a in includedGroup) {
+						Component.Destroy (a.gameObject.GetComponent<AudioReverbFilter> ());
+					}
 				}
+				reverbFilter = null;
+				reverbOptions.GetComponent<reverbScript> ().filterReference = null;
 			}
 			reverbOptions.SetActive (false);
 		}
@@ -281,12 +305,17 @@ public class soundEditScript : MonoBehaviour {
 			{
 				if (groupName == "") {
 					distortionFilter = soundReference.AddComponent<AudioDistortionFilter> ();
-					distortionOptions.GetComponent<distortionScript> ().filterReference = distortionFilter;
+
 				}
 				else
 				{
-
+					foreach (AudioSource a in includedGroup) {
+						a.gameObject.AddComponent<AudioDistortionFilter> ();
+					}
+					//use first one as reference
+					distortionFilter = includedGroup[0].gameObject.GetComponent<AudioDistortionFilter>();
 				}
+				distortionOptions.GetComponent<distortionScript> ().filterReference = distortionFilter;
 			}
 			distortionOptions.SetActive (true);
 		} else {
@@ -294,11 +323,14 @@ public class soundEditScript : MonoBehaviour {
 			{
 				if(groupName == ""){
 					Component.Destroy(soundReference.GetComponent<AudioDistortionFilter>());
-					distortionFilter = null;
-					distortionOptions.GetComponent<distortionScript> ().filterReference = null;
 				}
 				else{
+					foreach (AudioSource a in includedGroup) {
+						Component.Destroy (a.gameObject.GetComponent<AudioDistortionFilter> ());
+					}
 				}
+				distortionFilter = null;
+				distortionOptions.GetComponent<distortionScript> ().filterReference = null;
 			}
 			distortionOptions.SetActive (false);
 		}
@@ -311,6 +343,9 @@ public class soundEditScript : MonoBehaviour {
 		if (groupName == "")
 			sourceSound.volume = volumeSlider.value;
 		else {
+			foreach (AudioSource a in includedGroup) {
+				a.volume = volumeSlider.value;
+			}
 		}
 
 		volumeText.text = volumeSlider.value.ToString();
@@ -323,8 +358,10 @@ public class soundEditScript : MonoBehaviour {
 		if (groupName == "")
 			sourceSound.pitch = pitchSlider.value;
 		else {
+			foreach (AudioSource a in includedGroup) {
+				a.pitch = pitchSlider.value;
+			}
 		}
-
 		pitchText.text = pitchSlider.value.ToString();
 	}
 

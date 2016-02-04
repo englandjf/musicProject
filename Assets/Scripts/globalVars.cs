@@ -364,8 +364,10 @@ public class globalVars : MonoBehaviour {
 
 	}
 
+	//assigned in editor
 	public void deleteHelper()
 	{
+		//need to do some tweaks to delete unwanted deletions
 		if (selectedObject && sb.soundDropdown.value != 0)
 			selectedObject.GetComponent<soundScript> ().deleteSound ();
 	}
