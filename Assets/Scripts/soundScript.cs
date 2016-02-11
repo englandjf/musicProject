@@ -32,6 +32,7 @@ public class soundScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		
 		gv = GameObject.Find ("main").GetComponent<globalVars> ();
 
 
@@ -192,9 +193,10 @@ public class soundScript : MonoBehaviour {
 
 	void OnTriggerExit2D(Collider2D a)
 	{
-		if(a.gameObject.name == "bar" && this.gameObject.GetComponent<AudioEchoFilter>() == null)
-			mainSource.Stop ();
-		else
+		//if(a.gameObject.name == "bar" && this.gameObject.GetComponent<AudioEchoFilter>() == null)
+		//	mainSource.Stop ();
+		//else
+		if(a.gameObject.name != "bar")
 			clearToplace = true;
 	}
 
