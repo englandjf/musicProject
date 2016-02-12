@@ -163,10 +163,10 @@ public class globalVars : MonoBehaviour {
 		}
 
 		//scroll, mostly just in editor
-		if(current == mainCam){
-			if (Input.mousePosition.x > Screen.width - 20) {
+		if(current == mainCam && Input.GetMouseButton(1)){
+			if (Input.mousePosition.x > Screen.width/2) {
 				mainCam.transform.position = new Vector3 (mainCam.transform.position.x + .05f, mainCam.transform.position.y, mainCam.transform.position.z);
-			} else if (Input.mousePosition.x < 20) {
+			} else if (Input.mousePosition.x < Screen.width/2) {
 				mainCam.transform.position = new Vector3 (mainCam.transform.position.x - .05f, mainCam.transform.position.y, mainCam.transform.position.z);
 			}
 				
@@ -174,8 +174,9 @@ public class globalVars : MonoBehaviour {
 		}
 
 
-
-		if (Input.GetMouseButtonDown (0)) {
+		//not working correctly, might just make button
+		/*
+		if (Input.GetMouseButtonDown (0) && selectedObject) {
 			if (!oneClick) {
 				oneClick = true;
 				timerDC = Time.time;
@@ -189,6 +190,7 @@ public class globalVars : MonoBehaviour {
 			if ((Time.time - timerDC) > delay)
 				oneClick = false;
 		}
+		*/
 
 		//Hide/Show Edit Button
 		//if (selectedObject)
@@ -309,8 +311,8 @@ public class globalVars : MonoBehaviour {
 	{
 		
 		soundEditScript temp = current.gameObject.GetComponent<soundEditScript> ();
-		temp.soundReference = null;
-		temp.groupName = "";
+		//temp.soundReference = null;
+		//temp.groupName = "";
 		temp.enabled = false;
 
 		cameraHelp (mainCam, mainCanvas);

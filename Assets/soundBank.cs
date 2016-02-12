@@ -6,6 +6,8 @@ using System.IO;
 
 public class soundBank : MonoBehaviour {
 
+	//NEED TO LOOK INTO SYNCING ONCE NEW SOUNDS HAVE BEEN ADDED
+
 	//For now just have one bank
 	//But in the future have multiple based on categories
 
@@ -35,6 +37,7 @@ public class soundBank : MonoBehaviour {
 		//Clear and add title
 
 		setupDropdown ();
+
 
 
 	}

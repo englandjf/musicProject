@@ -1,16 +1,13 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/soundEditScript.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/globalVars.cs">
     <Files>
-      <File FileName="Assets/soundBank.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/soundScript.cs" Line="1" Column="1" />
-      <File FileName="Assets/soundEditScript.cs" Line="424" Column="1" />
-      <File FileName="Assets/Scripts/globalVars.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Option Settings/chorusScript.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/barScript.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/importScript.cs" Line="1" Column="1" />
-      <File FileName="Assets/soundRecord.cs" Line="44" Column="4" />
-      <File FileName="Assets/Scripts/soundRecord2.js" Line="90" Column="1" />
+      <File FileName="Assets/soundBank.cs" Line="9" Column="61" />
+      <File FileName="Assets/Scripts/soundScript.cs" Line="85" Column="18" />
+      <File FileName="Assets/Scripts/globalVars.cs" Line="189" Column="18" />
+      <File FileName="Assets/Scripts/createScript.cs" Line="1" Column="1" />
+      <File FileName="Assets/soundEditScript.cs" Line="457" Column="20" />
+      <File FileName="Assets/Scripts/mixerScript.cs" Line="80" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
