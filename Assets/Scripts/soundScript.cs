@@ -133,9 +133,9 @@ public class soundScript : MonoBehaviour {
 			GetComponent<Renderer> ().material.color = Color.white;
 
 		//Delete
-		if (Input.GetMouseButtonDown (1) && gv.overObject == this.gameObject) {
-			deleteSound ();
-		}
+		//if (Input.GetMouseButtonDown (1) && gv.overObject == this.gameObject) {
+		//	deleteSound ();
+		//}
 
 		//Handle play
 		//if (playTrack && !mainSource.isPlaying && Time.time < gameSoundEnd) {

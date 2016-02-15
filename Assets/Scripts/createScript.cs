@@ -32,7 +32,7 @@ public class createScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetMouseButtonDown (0) && !gv.overObject && gv.current.name == "main" 
+		if (Input.GetMouseButtonDown (0) && !gv.songInfo.activeSelf &&  !gv.overObject && gv.current.name == "main" 
 			&& (gv.sb.currentMenuState.ToString() == "included"
 				|| gv.sb.currentMenuState.ToString() == "downloads")) {
 			Vector3 mp = GetComponent<Camera> ().ScreenToWorldPoint (Input.mousePosition);

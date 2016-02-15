@@ -163,15 +163,19 @@ public class globalVars : MonoBehaviour {
 		}
 
 		//scroll, mostly just in editor
+		/*
 		if(current == mainCam && Input.GetMouseButton(1)){
 			if (Input.mousePosition.x > Screen.width/2) {
 				mainCam.transform.position = new Vector3 (mainCam.transform.position.x + .05f, mainCam.transform.position.y, mainCam.transform.position.z);
 			} else if (Input.mousePosition.x < Screen.width/2) {
 				mainCam.transform.position = new Vector3 (mainCam.transform.position.x - .05f, mainCam.transform.position.y, mainCam.transform.position.z);
 			}
+
 				
 
 		}
+		*/
+
 
 
 		//not working correctly, might just make button
@@ -238,6 +242,8 @@ public class globalVars : MonoBehaviour {
 
 
 	}
+
+
 
 	public Dropdown groupOptions;
 	public void updateSelectedGroup()
@@ -385,6 +391,15 @@ public class globalVars : MonoBehaviour {
 	void showButton(Button a)
 	{
 		
+	}
+
+	public GameObject songInfo;
+	public void showSongInfo(bool show)
+	{
+		if(show)
+			songInfo.SetActive(true);
+		else
+			songInfo.SetActive(false);
 	}
 	
 
