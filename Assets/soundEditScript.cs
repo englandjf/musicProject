@@ -340,6 +340,7 @@ public class soundEditScript : MonoBehaviour {
 	public Text volumeText;
 	void volumeChanged()
 	{
+		volumeSlider.value = (float)System.Math.Round (volumeSlider.value, 2);
 		//Apply to one vs all
 		if (groupName == "")
 			sourceSound.volume = volumeSlider.value;
@@ -354,7 +355,8 @@ public class soundEditScript : MonoBehaviour {
 	public Text pitchText;
 	void pitchChanged()
 	{
-		Debug.Log (sourceSound.clip.length);
+		pitchSlider.value = (float)System.Math.Round (pitchSlider.value, 2);
+		//Debug.Log (sourceSound.clip.length);
 		//Apply to one vs all
 		if (groupName == "")
 			sourceSound.pitch = pitchSlider.value;

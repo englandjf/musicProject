@@ -246,8 +246,8 @@ public class soundScript : MonoBehaviour {
 		}
 
 		//delete if there is a conflict
-		if (!clearToplace)
-			Destroy (this.gameObject);
+		//if (!clearToplace)
+		//	Destroy (this.gameObject);
 			
 	}
 

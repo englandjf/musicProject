@@ -29,9 +29,12 @@ public class distortionScript : MonoBehaviour {
 	}
 
 	public Slider distortionLevel;
+	public Text distortionLevelText;
 	public void distortionLevelChanged()
 	{
+		distortionLevel.value = (float)System.Math.Round (distortionLevel.value, 2);
 		filterReference.distortionLevel = distortionLevel.value;
+		distortionLevelText.text = distortionLevel.value.ToString ();
 	}
 
 
