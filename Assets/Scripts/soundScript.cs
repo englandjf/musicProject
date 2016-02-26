@@ -248,6 +248,25 @@ public class soundScript : MonoBehaviour {
 		//delete if there is a conflict
 		//if (!clearToplace)
 		//	Destroy (this.gameObject);
+
+		//change setting based on y location
+		//set pitch settings
+		if (transform.position.y != 0) {
+			Debug.Log (gv.yCurrent);
+			if (gv.yCurrent == "yPitch") {
+				Debug.Log ("pitch");
+				mainSource.pitch = 1 + (transform.position.y * .1f);
+			}
+		//set stereo settings
+		else if (gv.yCurrent == "yStereo") {
+				mainSource.pitch = 1;
+			}
+		//set volume settings
+			else if (gv.yCurrent == "yVolume") {
+				mainSource.pitch = 1;
+			}
+		}
+		Debug.Log(transform.position.y);
 			
 	}
 

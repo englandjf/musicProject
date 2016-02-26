@@ -7,6 +7,18 @@ using System.IO;
 
 public class globalVars : MonoBehaviour {
 
+
+	//Things left to do
+	/*
+	 * Save the song
+	 * Clean up UI
+	 * Figure out what to do with group
+	 * handle the shit out of those exceptions
+	 * 
+	//idea for y axis
+	//stereo left and right, pitch, allow selection?
+	 */
+
 	public string filePath;
 
 	//assigned when the mouse/touch is over an object
@@ -70,8 +82,6 @@ public class globalVars : MonoBehaviour {
 
 
 
-	//idea for y axis
-	//stereo left and right, pitch, allow selection?
 
 	// Use this for initialization
 	void Start () {
@@ -88,7 +98,7 @@ public class globalVars : MonoBehaviour {
 		//File.Delete(Application.persistentDataPath+ "/dataFile");
 
 		//verifies if the API token is valid
-		checkTokenInfo ();
+		//checkTokenInfo ();
 	}
 
 	//for free sound 
@@ -181,6 +191,9 @@ public class globalVars : MonoBehaviour {
 				oneClick = false;
 		}
 		*/
+
+		//Only allow one toggle for yAxis option
+		//yValueCheck();
 	}
 
 
@@ -298,13 +311,41 @@ public class globalVars : MonoBehaviour {
 	//For modifying song settings
 	public GameObject songInfo;
 	//Called to show/hide song settings
-	public void showSongInfo(bool show)
+	public void showSongInfo()
 	{
-		if(show)
-			songInfo.SetActive(true);
-		else
+		if(songInfo.activeSelf)
 			songInfo.SetActive(false);
+		else
+			songInfo.SetActive(true);
 	}
+
+
+	public Toggle yPitch;
+	public Toggle yStereo;
+	public Toggle yVolume;
+	public string yCurrent;
+
+	public void yValueChange(Toggle current)
+	{
+		Debug.Log (current.name);
+		yCurrent = current.name;
+	}
+
+	/*
+	void yValueCheck()
+	{
+		if (yPitch.isOn) {
+			yStereo.isOn = false;
+			yVolume.isOn = false;
+		} else if (yStereo.isOn) {
+			yPitch.isOn = false;
+			yVolume.isOn = false;
+		} else if (yVolume.isOn) {
+			yPitch.isOn = false;
+			yStereo.isOn = false;
+		}
+	}
+	*/
 	
 
 

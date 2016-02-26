@@ -1,14 +1,16 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/soundEditScript.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Option Settings/distortionScript.cs">
     <Files>
       <File FileName="Assets/soundBank.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/soundScript.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/soundScript.cs" Line="250" Column="5" />
       <File FileName="Assets/Scripts/createScript.cs" Line="1" Column="1" />
-      <File FileName="Assets/soundEditScript.cs" Line="31" Column="29" />
+      <File FileName="Assets/soundEditScript.cs" Line="358" Column="66" />
       <File FileName="Assets/Scripts/mixerScript.cs" Line="1" Column="1" />
       <File FileName="Assets/slideScript.cs" Line="1" Column="1" />
-      <File FileName="Assets/soundRecord.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Option Settings/chorusScript.cs" Line="44" Column="18" />
+      <File FileName="Assets/Scripts/Option Settings/echoScript.cs" Line="48" Column="22" />
+      <File FileName="Assets/Scripts/Option Settings/distortionScript.cs" Line="37" Column="64" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
